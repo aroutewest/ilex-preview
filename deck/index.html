@@ -59,8 +59,14 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 /* redaction */
 .redact{position:relative;display:inline-block;white-space:nowrap;padding:0 .05em;color:transparent;
   user-select:none;-webkit-user-select:none}
-.redact::after{content:"";position:absolute;inset:.1em 0 .05em;background:var(--ink)}
+.redact::after{content:"";position:absolute;inset:.1em 0 .05em;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform 1s var(--luxe)}
+.slide.now .redact::after{transform:scaleX(1)}
+.redact{transition:none}
+.redact[style*="transition-delay"]::after{transition-delay:inherit}
 .slide.dark .redact::after{background:var(--parchment-deep)}
+.redact.peek{color:var(--claret)}
+.redact.peek::after{opacity:.08}
 
 /* cover */
 .cover .tree-bg{left:50%;top:52%;transform:translate(-50%,-50%);height:88vh;opacity:.15;filter:sepia(.25)}
@@ -294,9 +300,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 <!-- 08 · THE MOVE -->
 <section class="slide">
   <div class="body-max">
-    <h2 class="rv" style="font-size:clamp(28px,3.6vw,44px)">We printed the censorship.</h2>
-    <p class="rv d1">Every mention of the origin appears on the site struck through in ink, in plain view. Around the redactions, the dossier documents parcel, soil, barrel and cellar in enough detail that you reach the verdict yourself.</p>
-    <p class="rv d2">Other luxury brands invented clubs and forged heritage to give their product a world. Every fact on this site is true, down to the regulation number. Only the name is missing — and a public register of 6,600 numbered bottles lets you verify the scarcity instead of taking our word for it.</p>
+    <h2 class="rv" style="font-size:clamp(28px,3.6vw,44px)">Embracing the censorship.</h2>
+    <p class="rv d1">The forbidden words appear on every page, struck through in plain view. This wine is grown at <span class="redact" style="transition-delay:.9s">Saint-Émilion</span>, on the limestone of the <span class="redact" style="transition-delay:1.4s">right bank</span>, at <span class="redact" style="transition-delay:1.9s">Château Franc Mayne</span> — and we may print none of it. Hold a bar to peek; it closes when you let go.</p>
+    <p class="rv d2">Around the bars, the dossier records parcel, soil, barrel and cellar in enough detail that you reach the verdict yourself. Every fact on the site is true, down to the regulation number, and a public register of 6,600 numbered bottles lets you verify the scarcity instead of taking our word for it.</p>
   </div>
 </section>
 
@@ -663,6 +669,15 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
     if (e.target.closest('.cta-btn')) return;
     closeSlide.classList.add('faded');
   });
+  /* redactions: hold to peek */
+  Array.prototype.forEach.call(document.querySelectorAll('.redact'), function(r){
+    var t = null;
+    r.addEventListener('pointerdown', function(ev){ ev.preventDefault(); t = setTimeout(function(){ r.classList.add('peek'); }, 350); });
+    ['pointerup','pointerleave','pointercancel'].forEach(function(evt){
+      r.addEventListener(evt, function(){ clearTimeout(t); r.classList.remove('peek'); });
+    });
+  });
+
   /* the colour flood */
   var cs = document.getElementById('colorsSlide');
   if (cs){
