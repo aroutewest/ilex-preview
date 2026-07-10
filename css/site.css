@@ -221,8 +221,8 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .sep-beats{height:4.2em;margin-top:3vh;position:relative;width:min(90vw,620px);text-align:center}
 .sep-beat{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;
   font-family:var(--font-display);font-style:italic;font-size:clamp(18px,2.4vw,26px);line-height:1.5;
-  opacity:0;transform:translateY(12px);transition:opacity .8s,transform .8s;text-wrap:balance}
-.sep-beat.on{opacity:1;transform:none}
+  opacity:0;transform:translateY(12px);transition:opacity .28s ease,transform .28s ease;text-wrap:balance}
+.sep-beat.on{opacity:1;transform:none;transition:opacity .8s var(--ease-luxe) .34s,transform .8s var(--ease-luxe) .34s}
 .sep-beat .fr{display:block;font-family:var(--hand);font-style:normal;font-size:1.1em;color:var(--gold-soft);margin-top:.4em}
 .sep-finale{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:92vw}
 .sep-finale p{font-family:var(--font-display);font-style:italic;line-height:1.3;

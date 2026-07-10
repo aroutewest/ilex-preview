@@ -108,8 +108,8 @@
       if (!reduced && innerWidth > 900){
         dossProse.style.transform = 'translateX(' + ((1-t2)*26).toFixed(2) + '%)';
       }
-      dossEx.classList.toggle('on', t2 > .1);
-      if (!exOn && t2 > .5){ exOn = true;
+      dossEx.classList.toggle('on', t2 > .5);
+      if (!exOn && t2 > .8){ exOn = true;
         exMarks.forEach(function(el, i){ setTimeout(function(){ el.classList.add('on'); }, 200 + i*180); });
       }
     }
