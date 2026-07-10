@@ -107,9 +107,15 @@
         if (r) r.classList.add('on');
       }, 34);
     }
+    var mapBg = $('.dossier .map-bg');
     function dossScroll(){
       var r = dossTrack.getBoundingClientRect();
       var p = clamp(-r.top/(r.height - innerHeight));
+      if (mapBg){
+        var mv = reduced ? 1 : clamp(p/.16);
+        mapBg.style.opacity = mv.toFixed(3);
+        mapBg.style.transform = 'translateY(' + ((1-mv)*6).toFixed(2) + '%)';
+      }
       dossHead.classList.toggle('on', p > .02);
       if (p > .05) typeOn();
       var t2 = reduced ? 1 : clamp((p - .42)/.22);

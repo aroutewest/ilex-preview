@@ -148,7 +148,7 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .stats{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .stats .sprig{position:absolute;top:9vh;left:50%;transform:translateX(-50%);height:110px;
   mix-blend-mode:multiply;opacity:.8}
-.stats .backdrop{position:absolute;bottom:-2%;left:50%;transform:translate(-50%,44%);width:max(1100px,110vw);
+.stats .backdrop{position:absolute;bottom:9vh;left:50%;transform:translate(-50%,44%);width:max(1100px,110vw);
   opacity:.42;mix-blend-mode:multiply;pointer-events:none;will-change:transform;
   -webkit-mask-image:linear-gradient(0deg,#000 52%,transparent 100%);mask-image:linear-gradient(0deg,#000 52%,transparent 100%)}
 .stats-inner{position:relative;max-width:1200px;margin:0 auto;padding:120px 5vw;display:grid;
@@ -157,12 +157,12 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .stat .n{font-family:var(--font-display);font-size:clamp(44px,6vw,84px);color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
 .stat .l{font-family:var(--law);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--sepia);margin-top:16px}
 .stat .r{width:34px;height:1px;background:var(--gold);margin:22px auto 0}
-.stats .foot{position:absolute;bottom:8vh;left:50%;transform:translateX(-50%);
+.stats .foot{position:absolute;bottom:2.5vh;left:50%;transform:translateX(-50%);z-index:2;
   font-family:var(--hand);font-size:24px;color:var(--claret);white-space:nowrap}
 
 /* ============ dossier — pinned scene over the drifting map ============ */
 .dossier{position:relative}
-.dossier .map-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.dossier .map-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:0;will-change:opacity,transform}
 .dossier .map-bg img{width:175%;max-width:none;min-height:120%;object-fit:cover;opacity:.11;
   mix-blend-mode:multiply;animation:mapdrift 110s ease-in-out infinite alternate}
 @keyframes mapdrift{from{transform:translate(0,-2%) scale(1)}to{transform:translate(-22%,-9%) scale(1.12)}}
