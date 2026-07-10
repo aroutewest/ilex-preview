@@ -152,7 +152,21 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .stats .sprig{position:absolute;top:8vh;left:50%;transform:translateX(-50%);height:100px;opacity:.8}
 .stats-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 5vw;display:grid;
   grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;width:100%}
-@media(max-width:760px){.stats-inner{grid-template-columns:1fr 1fr;gap:44px 20px;margin-bottom:34vh}}
+@media(max-width:760px){
+  .stats-inner{grid-template-columns:1fr 1fr;gap:40px 16px;margin-bottom:0}
+  .stats-stage{justify-content:flex-start;padding-top:15vh}
+  .stats .sprig{top:4vh;height:58px}
+  .backdrop-wrap{height:42vh}
+  .backdrop-wrap img{object-position:50% 80%}
+  .stats .foot{white-space:normal;font-size:19px;line-height:1.5;margin:14px 28px 0}
+  .annonce{font-size:9px;letter-spacing:.14em;padding:8px 12px 6px}
+  .hero-inner{padding:90px 20px 40px}
+  .hero .stamp{top:6%;right:5%}
+  .sep-num{font-size:clamp(84px,24vw,140px)}
+  .reg-cta{padding:28px 22px}
+  .stage-bottle{min-height:480px}
+  .stage-bottle .bottle{height:min(48vh,420px)}
+}
 .stat .n{font-family:var(--font-display);font-size:clamp(44px,6vw,84px);color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
 .stat .l{font-family:var(--law);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--sepia);margin-top:16px}
 .stat .r{width:34px;height:1px;background:var(--gold);margin:22px auto 0}
