@@ -61,9 +61,13 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
   user-select:none;-webkit-user-select:none}
 .redact::after{content:"";position:absolute;inset:.1em 0 .05em;background:var(--ink);
   transform:scaleX(0);transform-origin:left;transition:transform 1s var(--luxe)}
-.slide.now .redact::after{transform:scaleX(1)}
-.redact{transition:none}
-.redact[style*="transition-delay"]::after{transition-delay:inherit}
+.slide.now .redact:not(.late)::after{transform:scaleX(1)}
+.redact.late.struck::after{transform:scaleX(1);transition-duration:.6s}
+.typeline{font-size:clamp(16px,1.5vw,19px);max-width:62ch;margin:20px auto 0}
+.typeline .w{opacity:0;transition:opacity .2s ease}
+.typeline .w.on{opacity:1}
+.typeline .redact{color:var(--ink)}
+.typeline .redact.peek{color:var(--claret)}
 .slide.dark .redact::after{background:var(--parchment-deep)}
 .redact.peek{color:var(--claret)}
 .redact.peek::after{opacity:.08}
@@ -301,7 +305,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 <section class="slide">
   <div class="body-max">
     <h2 class="rv" style="font-size:clamp(28px,3.6vw,44px)">Embracing the censorship.</h2>
-    <p class="rv d1">The forbidden words appear on every page, struck through in plain view. This wine is grown at <span class="redact" style="transition-delay:.9s">Saint-Émilion</span>, on the limestone of the <span class="redact" style="transition-delay:1.4s">right bank</span>, at <span class="redact" style="transition-delay:1.9s">Château Franc Mayne</span>, and we may print none of it. Hold a bar to peek; it closes when you let go.</p>
+    <p class="typeline" id="censorP">The forbidden words appear on every page, struck through in plain view. This wine is grown at <span class="redact late">Saint-Émilion</span>, on the limestone of the <span class="redact late">right bank</span>, at <span class="redact late">Château Franc Mayne</span>, and we may print none of it. Hold a bar to peek; it closes when you let go.</p>
     <p class="rv d2">Around the bars, the dossier records parcel, soil, barrel and cellar in enough detail that you reach the verdict yourself. Every fact on the site is true, down to the regulation number, and a public register of 6,600 numbered bottles lets you verify the scarcity instead of taking our word for it.</p>
   </div>
 </section>
@@ -636,10 +640,47 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
   var folio = document.getElementById('folio');
   var pad = function(n){ return (n<10?'0':'')+n; };
+  var censorP = document.getElementById('censorP');
+  var censorWords = [];
+  if (censorP){
+    var nodes = Array.prototype.slice.call(censorP.childNodes);
+    censorP.textContent = '';
+    nodes.forEach(function(nd){
+      if (nd.nodeType === 3){
+        nd.nodeValue.split(/(\s+)/).forEach(function(tok){
+          if (!tok) return;
+          if (/^\s+$/.test(tok)){ censorP.appendChild(document.createTextNode(tok)); return; }
+          var s = document.createElement('span'); s.className = 'w'; s.textContent = tok;
+          censorP.appendChild(s); censorWords.push(s);
+        });
+      } else {
+        var s = document.createElement('span'); s.className = 'w'; s.appendChild(nd);
+        censorP.appendChild(s); censorWords.push(s);
+      }
+    });
+  }
+  var censorTyped = false;
+  function typeCensor(){
+    if (censorTyped || !censorP) return; censorTyped = true;
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce){
+      censorWords.forEach(function(w){ w.classList.add('on');
+        var r = w.querySelector('.redact.late'); if (r) r.classList.add('struck'); });
+      return;
+    }
+    var i = 0;
+    var iv = setInterval(function(){
+      if (i >= censorWords.length){ clearInterval(iv); return; }
+      var w = censorWords[i++]; w.classList.add('on');
+      var r = w.querySelector('.redact.late');
+      if (r) setTimeout(function(){ r.classList.add('struck'); }, 520);
+    }, 46);
+  }
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (e.isIntersecting){
         e.target.classList.add('now');
+        if (e.target.querySelector('#censorP')) setTimeout(typeCensor, 500);
         folio.textContent = pad(slides.indexOf(e.target)+1) + ' / ' + pad(slides.length);
       }
     });
