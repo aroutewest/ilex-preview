@@ -195,6 +195,15 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 #colorsSlide.inverted h2,#colorsSlide.inverted .pal b{color:var(--parchment-deep)}
 #colorsSlide.inverted .pal span,#colorsSlide.inverted p{color:rgba(234,227,208,.72)!important}
 #colorsSlide .pal{cursor:pointer}
+#closeSlide .close-content{transition:opacity 1.4s var(--luxe)}
+#closeSlide.faded .close-content{opacity:0;pointer-events:none}
+.close-cta{position:absolute;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none;
+  transition:opacity 1.6s var(--luxe) .6s}
+#closeSlide.faded .close-cta{opacity:1;pointer-events:auto}
+.cta-btn{font-family:var(--law);font-size:13px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold-soft);border:1px solid var(--gold-soft);padding:1.4em 2.8em 1.25em;
+  transition:all .4s var(--ease-luxe,ease)}
+.cta-btn:hover{background:var(--gold-soft);color:var(--espresso-deep)}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;scroll-snap-type:none}
   .rv{opacity:1;transform:none;transition:none}
@@ -599,9 +608,12 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 </section>
 
 <!-- 25 · CLOSE -->
-<section class="slide dark">
+<section class="slide dark" id="closeSlide">
   <img class="bg" src="../assets/01-tree.jpg" alt="" style="left:50%;top:50%;transform:translate(-50%,-52%);height:86vh;opacity:.12">
-  <div style="text-align:center">
+  <div class="close-cta">
+    <a class="cta-btn" href="https://aroutewest.github.io/ilex-preview/">Explore Ilex — L’Interdit</a>
+  </div>
+  <div class="close-content" style="text-align:center">
     <div class="rv" style="font-family:var(--display);font-size:clamp(54px,8vw,110px);letter-spacing:.24em;text-indent:.24em;color:var(--parchment-deep)">ILEX</div>
     <hr class="goldrule rv d1">
     <p class="hand rv d2" style="font-size:30px">— everything else falls away.</p>
@@ -637,12 +649,19 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
     }
   }
   addEventListener('scroll', markByScroll, {passive:true}); markByScroll();
+  var closeSlide = document.getElementById('closeSlide');
   addEventListener('keydown', function(e){
     var i = Math.round(scrollY/innerHeight);
     if (e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){ e.preventDefault();
+      if (i >= slides.length-1){ closeSlide.classList.add('faded'); return; }
       slides[Math.min(slides.length-1,i+1)].scrollIntoView({behavior:'smooth'}); }
     if (e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault();
+      closeSlide.classList.remove('faded');
       slides[Math.max(0,i-1)].scrollIntoView({behavior:'smooth'}); }
+  });
+  closeSlide.addEventListener('click', function(e){
+    if (e.target.closest('.cta-btn')) return;
+    closeSlide.classList.add('faded');
   });
   /* the colour flood */
   var cs = document.getElementById('colorsSlide');
