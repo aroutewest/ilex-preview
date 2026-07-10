@@ -378,10 +378,21 @@
   if (buy){
     var chosenEl = $('#pdpChosen');
     var chips = $$('.numchips button');
+    var chosenN = 2417, qty = 3;
     var setNo = function(n){
+      chosenN = n;
       chosenEl.textContent = 'N° ' + fmtNo(n-1);
       chips.forEach(function(c){ c.classList.toggle('on', String(c.dataset.n) === String(n)); });
     };
+    var priceMain = $('#priceMain'), priceNote = $('#priceNote');
+    $$('.formats button').forEach(function(b){
+      b.addEventListener('click', function(){
+        qty = parseInt(this.dataset.q, 10);
+        $$('.formats button').forEach(function(x){ x.classList.toggle('on', x===b); });
+        if (qty === 6){ priceMain.textContent = '234 €'; priceNote.textContent = 'la caisse de six · 39 € la bouteille'; }
+        else { priceMain.textContent = '117 €'; priceNote.textContent = 'trois bouteilles · 39 € la bouteille'; }
+      });
+    });
     chips.forEach(function(c){
       c.addEventListener('click', function(){
         if (this.dataset.n === 'clerk'){
@@ -407,9 +418,9 @@
         holdStart=0; setDeg(360);
         seal.classList.add('sealed');
         setTimeout(function(){ seal.classList.remove('sealed'); setDeg(0); }, 700);
-        done.innerHTML = 'Sealed. ' + chosenEl.textContent + ' is held in your name for twenty minutes. <span class="hand" style="font-size:19px">— le greffier vous attend.</span>';
+        done.innerHTML = 'Sealed. N° ' + fmtNo(chosenN-1) + ' — ' + fmtNo(chosenN+qty-2) + ' are held in your name for twenty minutes. <span class="hand" style="font-size:19px">— le greffier vous attend.</span>';
         done.classList.add('on');
-        panierN++; if (panier) panier.textContent = 'Panier (' + panierN + ')';
+        panierN += qty; if (panier) panier.textContent = 'Panier (' + panierN + ')';
         return;
       }
       holdRAF = requestAnimationFrame(holdLoop);

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Baskervville+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Zeyada&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=20">
+<link rel="stylesheet" href="css/site.css?v=21">
 </head>
 <body>
 
@@ -51,11 +51,19 @@
     <h1 class="rv">ILEX</h1>
     <div class="vintage rv">2023 · <span id="pdpChosen">N° 2 417</span></div>
     <p class="origin rv">Of a Grand Cru Classé estate at <span class="redact" title="withheld by decree">Saint-Émilion</span> — 100 % Merlot noir, grown on the limestone plateau, matured in oak underground, and gently freed of its alcohol once — and only once — the wine was complete.</p>
-    <div class="price rv">39 € <small>la bouteille · six per keeper, across all allocations</small></div>
+    <div class="price rv"><span id="priceMain">117 €</span> <small id="priceNote">trois bouteilles · 39 € la bouteille</small></div>
     <span class="alloc-chip rv">L’allocation inaugurale · opens Septembre MMXXVI</span>
 
+    <div class="numbers rv" style="margin-top:30px">
+      <span class="lbl">Your allocation — three bottles at minimum</span>
+      <div class="formats">
+        <button class="on" data-q="3"><span class="fq">Trois bouteilles</span><span class="fp">117 € · le minimum</span></button>
+        <button data-q="6"><span class="fq">La caisse de six</span><span class="fp">234 € · en caisse bois</span></button>
+      </div>
+    </div>
+
     <div class="numbers rv">
-      <span class="lbl">Choose your number — it is yours alone, forever</span>
+      <span class="lbl">Choose your first number — the greffier numbers the rest in sequence</span>
       <div class="numchips">
         <button data-n="2417" class="on">N° 2 417</button>
         <button data-n="2531">N° 2 531</button>
@@ -63,6 +71,7 @@
         <button data-n="2904">N° 2 904</button>
         <button data-n="3122">N° 3 122</button>
         <button data-n="3305">N° 3 305</button>
+        <button data-n="4380">N° 4 380</button>
         <button data-n="clerk" class="clerk">le greffier chooses…</button>
       </div>
     </div>
@@ -70,11 +79,11 @@
     <div class="sealrow rv">
       <button class="seal-btn" id="sealBtn" style="--deg:0" aria-label="Press and hold to seal your claim">
         <span class="ring"></span>
-        <span class="face"><span>ILEX</span></span>
+        <span class="face"><span>Réserver</span></span>
       </button>
       <div class="txt">
         <div class="t1">Press &amp; hold to seal your claim</div>
-        <div class="t2">Hold the seal and we hold the bottle in your name for twenty minutes, while the greffe settles your claim.</div>
+        <div class="t2">Hold the seal and we hold your bottles in your name for twenty minutes, while the greffe settles your claim.</div>
         <span class="hand">as one holds wax.</span>
         <div class="done" id="sealDone"></div>
       </div>
@@ -188,6 +197,6 @@
   </div>
 </footer>
 
-<script src="js/site.js?v=20"></script>
+<script src="js/site.js?v=21"></script>
 </body>
 </html>

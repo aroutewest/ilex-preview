@@ -169,7 +169,8 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
   .reg-legend{font-size:8.5px;gap:14px;bottom:2.5vh;padding:6px 14px}
   .reg-cta{bottom:50%}
   .reg-stage canvas{cursor:default}
-  .stage-bottle{min-height:480px}
+  .stage-bottle{min-height:480px;position:relative;top:0}
+  .numchips{grid-template-columns:repeat(2,1fr)}
   .stage-bottle .bottle{height:min(48vh,420px)}
 }
 .stat .n{font-family:var(--font-display);font-size:clamp(44px,6vw,84px);color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
@@ -328,14 +329,14 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .crumbs{max-width:1200px;margin:0 auto;padding:60px 5vw 0;font-family:var(--law);font-size:10.5px;
   letter-spacing:.22em;text-transform:uppercase;color:var(--taupe)}
 .crumbs a:hover{color:var(--claret)}
-.pdp{max-width:1200px;margin:0 auto;padding:40px 5vw 110px;display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:start}
+.pdp{max-width:1300px;margin:0 auto;padding:40px 5vw 110px;display:grid;grid-template-columns:.86fr 1.14fr;gap:56px;align-items:start}
 @media(max-width:900px){.pdp{grid-template-columns:1fr}}
 .stage-bottle{position:relative;display:flex;align-items:flex-end;justify-content:center;
-  min-height:600px;padding-bottom:70px}
+  min-height:720px;padding-bottom:70px;position:sticky;top:6vh}
 .stage-bottle .ghost-tree{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);
   height:104%;opacity:.07;filter:sepia(.3);pointer-events:none}
 .stage-bottle .bottle-wrap{position:relative}
-.stage-bottle .bottle{position:relative;z-index:2;height:min(58vh,520px);width:auto;
+.stage-bottle .bottle{position:relative;z-index:2;height:min(76vh,680px);width:auto;
   filter:drop-shadow(0 18px 22px rgba(36,33,28,.28))}
 .stage-bottle .floor{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);
   width:150%;height:44px;z-index:1;filter:blur(3px);
@@ -352,7 +353,16 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
   color:var(--claret);border:1px solid var(--claret);border-radius:999px;padding:.55em 1.1em .45em;margin-top:10px}
 .numbers{margin-top:34px}
 .numbers .lbl{font-family:var(--law);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--sepia);margin-bottom:14px;display:block}
-.numchips{display:flex;flex-wrap:wrap;gap:10px}
+.numchips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.numchips button{width:100%}
+.formats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
+.formats button{border:1px solid var(--hair);background:var(--cream);padding:18px 16px 14px;text-align:left;transition:all .25s}
+.formats button .fq{font-family:var(--font-display);font-size:20px;color:var(--ink);display:block}
+.formats button .fp{font-family:var(--law);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);display:block;margin-top:6px}
+.formats button:hover{border-color:var(--claret)}
+.formats button.on{border-color:var(--claret);background:var(--claret)}
+.formats button.on .fq{color:var(--cream)}
+.formats button.on .fp{color:rgba(251,249,240,.75)}
 .numchips button{font-family:var(--font-display);font-size:16px;font-variant-numeric:tabular-nums;
   border:1px solid var(--hair);padding:.6em 1em .5em;background:var(--cream);transition:all .25s}
 .numchips button:hover{border-color:var(--claret);color:var(--claret)}
@@ -371,7 +381,7 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
   box-shadow:inset 0 3px 8px rgba(255,255,255,.16),inset 0 -6px 14px rgba(0,0,0,.4),0 12px 26px -12px rgba(85,29,27,.7);
   display:grid;place-items:center;color:var(--gold-soft);transition:transform .18s}
 .seal-btn:active .face{transform:scale(.96)}
-.seal-btn .face span{font-family:var(--font-display);font-size:26px;letter-spacing:.18em;text-indent:.18em}
+.seal-btn .face span{font-family:var(--law);font-size:12px;letter-spacing:.26em;text-indent:.26em;text-transform:uppercase}
 .seal-btn.sealed .face{animation:sealthunk .5s cubic-bezier(.6,0,.3,1.3)}
 @keyframes sealthunk{0%{transform:scale(1.5);filter:brightness(1.35)}70%{transform:scale(.93)}100%{transform:scale(1)}}
 .sealrow .txt .t1{font-family:var(--law);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--claret);margin-bottom:8px}
