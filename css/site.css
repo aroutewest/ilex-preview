@@ -133,10 +133,16 @@ body.arrived .hero .thesis{animation:fadeUp 1.1s var(--ease-luxe) 3.15s forwards
 body.arrived .hero .ctas{animation:fadeUp 1s var(--ease-luxe) 3.7s forwards}
 body.arrived .hero .crest{animation:fadeInCrest 1.2s var(--ease-luxe) 4.1s forwards}
 body.arrived .hero .stamp{animation:fadeInStamp .8s var(--ease-luxe) 4.3s forwards}
+.hero .cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);opacity:0;pointer-events:none}
+.hero .cue i{display:block;width:9px;height:9px;border-right:1px solid var(--sepia);border-bottom:1px solid var(--sepia);
+  animation:cuedrift 2.6s ease-in-out infinite}
+body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
+@keyframes cuedrift{0%,100%{transform:translateY(0) rotate(45deg);opacity:.4}50%{transform:translateY(7px) rotate(45deg);opacity:.85}}
 @media (prefers-reduced-motion:reduce){
   .hero .sky{opacity:.5}.hero .tree{opacity:.22}.hero .vines{opacity:.4}
   .hero h1 span,.hero .eyebrow,.hero .thesis,.hero .ctas{opacity:1}
-  .hero .crest{opacity:.85}.hero .stamp{opacity:.7}
+  .hero .crest{opacity:.85}.hero .stamp{opacity:.7}.hero .cue{opacity:.6}
+  .hero .cue i{animation:none}
   body.arrived .hero *{animation:none!important}
 }
 

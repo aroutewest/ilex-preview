@@ -9,19 +9,22 @@
   /* ---------- hero entrance ---------- */
   requestAnimationFrame(function(){ document.body.classList.add('arrived'); });
 
-  /* ---------- nav: hidden inside the experience, summoned by leaving it ---------- */
+  /* ---------- nav: never inside the first scene, summoned after it ---------- */
   var nav = $('.nav');
+  var heroEl = $('.hero');
   var lastY = scrollY;
+  var navGate = function(){ return heroEl ? heroEl.offsetHeight - 80 : 160; };
   function navState(){
     if (!nav) return;
     var y = scrollY;
-    if (y < lastY - 3 || (y < 10 && lastY > 10)) nav.classList.add('show');
-    else if (y > lastY + 5 && y > 90) nav.classList.remove('show');
+    if (y < navGate()) nav.classList.remove('show');
+    else if (y < lastY - 3) nav.classList.add('show');
+    else if (y > lastY + 5) nav.classList.remove('show');
     lastY = y;
   }
   addEventListener('scroll', navState, {passive:true});
   addEventListener('pointermove', function(e){
-    if (nav && e.clientY < 70) nav.classList.add('show');
+    if (nav && e.clientY < 70 && scrollY > navGate()) nav.classList.add('show');
   }, {passive:true});
 
   var panier = $('#panier'), panierN = 0;
@@ -172,6 +175,28 @@
   var fmtNo = function(n){ var s=String(n+1); while(s.length<4) s='0'+s; return s.slice(0,1)+' '+s.slice(1); };
   var hash = function(n){ var x = Math.sin(n*127.1)*43758.5453; return x - Math.floor(x); };
   $$('.js-remaining').forEach(function(el){ el.textContent = fmt(remaining); });
+
+  /* the count arrives like a ledger being tallied — fast, then one by one */
+  var tickEl = $('.reg-count .n');
+  if (tickEl){
+    tickEl.textContent = '0';
+    var ticked = false;
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting || ticked) return;
+        ticked = true;
+        if (reduced){ tickEl.textContent = fmt(remaining); return; }
+        var t0 = performance.now(), DUR = 3500;
+        var tick = function(ts){
+          var p = Math.min(1, (ts - t0)/DUR);
+          var eased = 1 - Math.pow(1 - p, 6);
+          tickEl.textContent = fmt(Math.round(remaining*eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, {threshold:.6}).observe(tickEl);
+  }
 
   /* ---------- register theatre (home) ---------- */
   var theatre = $('#regTheatre');
