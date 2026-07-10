@@ -10,7 +10,7 @@
   requestAnimationFrame(function(){ document.body.classList.add('arrived'); });
 
   /* ---------- nav: never inside the first scene, summoned after it ---------- */
-  var nav = $('.nav');
+  var nav = $('#chrome');
   var heroEl = $('.hero');
   var lastY = scrollY;
   var navGate = function(){ return heroEl ? heroEl.offsetHeight - 80 : 160; };

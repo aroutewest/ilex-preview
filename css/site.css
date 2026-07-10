@@ -74,11 +74,12 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;color:var(--ink);line-h
   font-family:var(--law);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
   padding:9px 16px 7px}
 .annonce b{color:var(--gold-soft);font-weight:400}
-.nav{position:fixed;top:0;left:0;right:0;z-index:80;height:var(--nav-h);display:flex;align-items:center;
-  background:rgba(244,241,228,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--hair);transform:translateY(-110%);
+.chrome{position:fixed;top:0;left:0;right:0;z-index:80;transform:translateY(-110%);
   transition:transform .5s var(--ease-luxe)}
-.nav.show{transform:translateY(0)}
+.chrome.show{transform:translateY(0)}
+.nav{height:var(--nav-h);display:flex;align-items:center;
+  background:rgba(244,241,228,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--hair)}
 .nav-inner{max-width:1320px;margin:0 auto;padding:0 4vw;width:100%;display:flex;align-items:center;gap:34px}
 .nav .wordmark{font-family:var(--font-display);font-size:23px;letter-spacing:.24em;text-indent:.24em;color:var(--ink)}
 .nav-links{display:flex;gap:28px;flex:1;justify-content:center}
@@ -91,7 +92,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;color:var(--ink);line-h
 @media(max-width:980px){.nav-links{display:none}}
 
 /* ============ hero — orchestrated entrance, no parallax ============ */
-.hero{position:relative;min-height:calc(100vh - 33px);display:flex;align-items:center;
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;
   justify-content:center;overflow:hidden;text-align:center}
 .hero .vig{position:absolute;inset:0;pointer-events:none;will-change:opacity;
   background:radial-gradient(120% 60% at 50% -8%,var(--parchment-deep) 0%,rgba(244,241,228,0) 62%)}
