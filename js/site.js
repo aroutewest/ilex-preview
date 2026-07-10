@@ -272,27 +272,34 @@
   if (theatre){
     var regCanvas = $('#regCanvas'), rctx = regCanvas.getContext('2d');
     var regCta = $('#regCta'), stage = $('.reg-stage', theatre), tip = $('#regTip');
-    var cell=0, dotR=0, hoverIdx=-1, regP=0, regVisible=false, igniteP=0, ignited=false;
+    var hoverIdx=-1, regP=0, regVisible=false, igniteP=0, ignited=false;
     var claretCol='#7C2D2A', inkFaint='rgba(36,33,28,.30)';
+    var mobileReg=false, C=COLS, R=ROWS, cw=0, ch=0, dotR=0;
     var sizeReg = function(){
-      cell = Math.min(innerWidth*.965/COLS, innerHeight*.62/ROWS);
-      dotR = Math.max(1, cell*.27);
-      var w = cell*COLS, h = cell*ROWS;
+      mobileReg = innerWidth < 760;
+      C = mobileReg ? 60 : COLS; R = mobileReg ? 110 : ROWS;
+      if (mobileReg){
+        cw = innerWidth*.96/C; ch = innerHeight*.72/R;
+      } else {
+        cw = ch = Math.min(innerWidth*.965/C, innerHeight*.62/R);
+      }
+      dotR = Math.max(.9, Math.min(cw,ch)*.28);
+      var w = cw*C, h = ch*R;
       var dpr = Math.min(devicePixelRatio||1, 2);
       regCanvas.style.width = w+'px'; regCanvas.style.height = h+'px';
       regCanvas.width = w*dpr; regCanvas.height = h*dpr;
       rctx.setTransform(dpr,0,0,dpr,0,0);
     };
     var drawReg = function(){
-      var w = cell*COLS, h = cell*ROWS;
+      var w = cw*C, h = ch*R;
       rctx.clearRect(0,0,w,h);
       var reveal = reduced ? 1 : igniteP;
       for (var idx=0; idx<TOTAL; idx++){
         /* each mark arrives on its own — scattered, not in a wave */
         var e = clamp((reveal*1.12 - hash(idx))/.09);
         if (e <= 0) continue;
-        var col = idx%COLS, row = (idx/COLS)|0;
-        var cx = col*cell + cell/2, cy = row*cell + cell/2;
+        var col = idx%C, row = (idx/C)|0;
+        var cx = col*cw + cw/2, cy = row*ch + ch/2;
         var r = dotR*(.5 + .5*e);
         if (reserved[idx]){
           rctx.globalAlpha = .95*e;
@@ -332,7 +339,8 @@
       regP = clamp(-r.top/(r.height - innerHeight));
       if (regP > .01 && r.top < innerHeight) igniteNow();
       var pp = clamp((regP - .5)/.24);
-      regCta.style.transform = 'translate(-50%,' + (reduced ? 0 : (1-easeOutCubic(pp))*150).toFixed(2) + '%)';
+      var rest = mobileReg ? 50 : 0;
+      regCta.style.transform = 'translate(-50%,' + (rest + (reduced ? 0 : (1-easeOutCubic(pp))*150)).toFixed(2) + '%)';
     }
     addEventListener('scroll', regScroll, {passive:true}); regScroll();
     (function regLoop(){
@@ -342,9 +350,10 @@
       if (Math.abs(reveal - lastReveal) > .002 || hoverIdx !== -2){ drawReg(); lastReveal = reveal; }
     })();
     regCanvas.addEventListener('pointermove', function(e){
+      if (mobileReg) return;
       var b = regCanvas.getBoundingClientRect();
-      var col = Math.floor((e.clientX-b.left)/cell), row = Math.floor((e.clientY-b.top)/cell);
-      var idx = (col>=0&&col<COLS&&row>=0&&row<ROWS) ? row*COLS+col : -1;
+      var col = Math.floor((e.clientX-b.left)/cw), row = Math.floor((e.clientY-b.top)/ch);
+      var idx = (col>=0&&col<C&&row>=0&&row<R) ? row*C+col : -1;
       hoverIdx = idx;
       if (idx >= 0){
         var sb = stage.getBoundingClientRect();
@@ -355,9 +364,10 @@
     });
     regCanvas.addEventListener('pointerleave', function(){ hoverIdx=-1; tip.classList.remove('on'); });
     regCanvas.addEventListener('click', function(e){
+      if (mobileReg) return;
       var b = regCanvas.getBoundingClientRect();
-      var col = Math.floor((e.clientX-b.left)/cell), row = Math.floor((e.clientY-b.top)/cell);
-      var idx = row*COLS+col;
+      var col = Math.floor((e.clientX-b.left)/cw), row = Math.floor((e.clientY-b.top)/ch);
+      var idx = row*C+col;
       if (idx<0 || idx>=TOTAL || reserved[idx]) return;
       location.href = 'pdp.html?n=' + (idx+1);
     });

@@ -164,6 +164,11 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
   .hero .stamp{top:6%;right:5%}
   .sep-num{font-size:clamp(84px,24vw,140px)}
   .reg-cta{padding:28px 22px}
+  .reg-count{white-space:normal;width:94vw;padding:6px 14px}
+  .reg-count .of{font-size:9px;letter-spacing:.18em}
+  .reg-legend{font-size:8.5px;gap:14px;bottom:2.5vh;padding:6px 14px}
+  .reg-cta{bottom:50%}
+  .reg-stage canvas{cursor:default}
   .stage-bottle{min-height:480px}
   .stage-bottle .bottle{height:min(48vh,420px)}
 }
