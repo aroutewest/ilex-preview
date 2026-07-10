@@ -29,23 +29,25 @@
 
   var panier = $('#panier'), panierN = 0;
 
-  /* ---------- the page itself changes colour through the numbers section ---------- */
+  /* ---------- the numbers vignette: pin, build, then release ---------- */
   var statsSec = $('.stats');
   if (statsSec){
-    var vinesBk = $('.stats .backdrop');
+    var statsTrack = $('#statsTrack');
+    var vinesWrap = $('.backdrop-wrap');
     var heroVig = $('.hero .vig');
     var PARCH = [244,241,228], LINEN = [228,220,198];
     var statScroll = function(){
-      var r = statsSec.getBoundingClientRect();
-      var overlap = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / innerHeight;
-      var m = overlap*overlap*(3 - 2*overlap);
-      var c = [0,1,2].map(function(i){ return Math.round(PARCH[i] + (LINEN[i]-PARCH[i])*m); });
+      var rT = statsTrack.getBoundingClientRect();
+      var pin = clamp(-rT.top/(rT.height - innerHeight));
+      var rise = reduced ? 1 : clamp(pin/.42);
+      var eased = 1 - Math.pow(1-rise, 3);
+      vinesWrap.style.transform = 'translateY(' + ((1-eased)*50).toFixed(2) + '%)';
+      var rS = statsSec.getBoundingClientRect();
+      var overlap = Math.max(0, Math.min(rS.bottom, innerHeight) - Math.max(rS.top, 0)) / innerHeight;
+      var m2 = overlap*overlap*(3 - 2*overlap);
+      var c = [0,1,2].map(function(i){ return Math.round(PARCH[i] + (LINEN[i]-PARCH[i])*m2); });
       document.body.style.backgroundColor = 'rgb(' + c.join(',') + ')';
-      if (heroVig) heroVig.style.opacity = (1 - Math.min(1, m*1.6)).toFixed(3);
-      if (!reduced){
-        var p = clamp((innerHeight - r.top) / (innerHeight + r.height*.5));
-        vinesBk.style.transform = 'translate(-50%,' + ((1-p)*44).toFixed(2) + '%)';
-      } else vinesBk.style.transform = 'translate(-50%,0)';
+      if (heroVig) heroVig.style.opacity = (1 - Math.min(1, m2*1.6)).toFixed(3);
     };
     addEventListener('scroll', statScroll, {passive:true}); statScroll();
   }
