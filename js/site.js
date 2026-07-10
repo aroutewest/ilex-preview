@@ -29,6 +29,19 @@
 
   var panier = $('#panier'), panierN = 0;
 
+  /* ---------- the vineyard rises into the numbers section ---------- */
+  var statsSec = $('.stats');
+  if (statsSec){
+    var vinesBk = $('.stats .backdrop');
+    var statScroll = function(){
+      if (reduced){ vinesBk.style.transform = 'translate(-50%,0)'; return; }
+      var r = statsSec.getBoundingClientRect();
+      var p = clamp((innerHeight - r.top) / (innerHeight + r.height*.5));
+      vinesBk.style.transform = 'translate(-50%,' + ((1-p)*44).toFixed(2) + '%)';
+    };
+    addEventListener('scroll', statScroll, {passive:true}); statScroll();
+  }
+
   /* ---------- reveals ---------- */
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });

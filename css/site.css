@@ -99,9 +99,6 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;color:var(--ink);line-h
   -webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 92%);mask-image:linear-gradient(180deg,#000 45%,transparent 92%)}
 .hero .tree{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);height:74vh;max-height:600px;
   opacity:0;mix-blend-mode:multiply;filter:sepia(.25);pointer-events:none}
-.hero .vines{position:absolute;bottom:-2%;left:50%;transform:translateX(-50%);width:max(1100px,103vw);
-  opacity:0;mix-blend-mode:multiply;pointer-events:none;
-  -webkit-mask-image:linear-gradient(0deg,#000 52%,transparent 100%);mask-image:linear-gradient(0deg,#000 52%,transparent 100%)}
 .hero-inner{position:relative;padding:60px 24px 90px}
 .hero .eyebrow{opacity:0}
 .hero h1{font-size:clamp(72px,11vw,150px);letter-spacing:.24em;text-indent:.24em;margin:22px 0 6px}
@@ -127,7 +124,6 @@ body.arrived .hero h1 span:nth-child(1){animation:fadeIn 1s var(--ease-luxe) 1.7
 body.arrived .hero h1 span:nth-child(2){animation:fadeIn 1s var(--ease-luxe) 1.9s forwards}
 body.arrived .hero h1 span:nth-child(3){animation:fadeIn 1s var(--ease-luxe) 2.1s forwards}
 body.arrived .hero h1 span:nth-child(4){animation:fadeIn 1s var(--ease-luxe) 2.3s forwards}
-body.arrived .hero .vines{animation:fadeInVines 1.6s var(--ease-luxe) 2.5s forwards}
 body.arrived .hero .eyebrow{animation:fadeUp .9s var(--ease-luxe) 3s forwards}
 body.arrived .hero .thesis{animation:fadeUp 1.1s var(--ease-luxe) 3.15s forwards}
 body.arrived .hero .ctas{animation:fadeUp 1s var(--ease-luxe) 3.7s forwards}
@@ -139,7 +135,7 @@ body.arrived .hero .stamp{animation:fadeInStamp .8s var(--ease-luxe) 4.3s forwar
 body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 @keyframes cuedrift{0%,100%{transform:translateY(0) rotate(45deg);opacity:.4}50%{transform:translateY(7px) rotate(45deg);opacity:.85}}
 @media (prefers-reduced-motion:reduce){
-  .hero .sky{opacity:.5}.hero .tree{opacity:.22}.hero .vines{opacity:.4}
+  .hero .sky{opacity:.5}.hero .tree{opacity:.22}
   .hero h1 span,.hero .eyebrow,.hero .thesis,.hero .ctas{opacity:1}
   .hero .crest{opacity:.85}.hero .stamp{opacity:.7}.hero .cue{opacity:.6}
   .hero .cue i{animation:none}
@@ -148,12 +144,12 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 
 /* ============ the numbers — a full scene ============ */
 .stats{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;
-  background:var(--linen);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);overflow:hidden}
+  background:linear-gradient(180deg,var(--parchment) 0%,var(--linen) 42%);border-bottom:1px solid var(--hair);overflow:hidden}
 .stats .sprig{position:absolute;top:9vh;left:50%;transform:translateX(-50%);height:110px;
   mix-blend-mode:multiply;opacity:.8}
-.stats .backdrop{position:absolute;bottom:-2%;left:50%;transform:translateX(-50%);width:110vw;
-  opacity:.14;mix-blend-mode:multiply;pointer-events:none;
-  -webkit-mask-image:linear-gradient(0deg,#000 40%,transparent 95%);mask-image:linear-gradient(0deg,#000 40%,transparent 95%)}
+.stats .backdrop{position:absolute;bottom:-2%;left:50%;transform:translate(-50%,44%);width:max(1100px,110vw);
+  opacity:.42;mix-blend-mode:multiply;pointer-events:none;will-change:transform;
+  -webkit-mask-image:linear-gradient(0deg,#000 52%,transparent 100%);mask-image:linear-gradient(0deg,#000 52%,transparent 100%)}
 .stats-inner{position:relative;max-width:1200px;margin:0 auto;padding:120px 5vw;display:grid;
   grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;width:100%}
 @media(max-width:760px){.stats-inner{grid-template-columns:1fr 1fr;gap:56px 20px}}
