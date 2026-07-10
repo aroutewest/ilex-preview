@@ -191,6 +191,10 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 @media(max-width:760px){.type-row{grid-template-columns:1fr;gap:6px}}
 .type-row .use{font-family:var(--law);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--claret)}
 
+#colorsSlide{transition:background .38s ease}
+#colorsSlide.inverted h2,#colorsSlide.inverted .pal b{color:var(--parchment-deep)}
+#colorsSlide.inverted .pal span,#colorsSlide.inverted p{color:rgba(234,227,208,.72)!important}
+#colorsSlide .pal{cursor:pointer}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto;scroll-snap-type:none}
   .rv{opacity:1;transform:none;transition:none}
@@ -207,7 +211,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
     <span class="eyebrow">Ilex · Juillet MMXXVI</span>
     <h1 style="margin-top:26px">ILEX</h1>
     <hr class="goldrule">
-    <p class="kicker">L’Interdit — our concept for the Ilex launch:<br>the site we built, and why we built it this way.</p>
+    <p class="kicker" style="max-width:46ch;margin-left:auto;margin-right:auto">L’Interdit is French for “the forbidden.” We chose the name because the law denies this wine its origin. We built the whole experience around that denial, and this document explains how.</p>
   </div>
 </section>
 
@@ -313,26 +317,26 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
 </section>
 
 <!-- 11 · THE COLORS -->
-<section class="slide">
+<section class="slide" id="colorsSlide">
   <div style="text-align:center;width:100%;max-width:1080px">
     <h2 class="rv" style="font-size:clamp(26px,3.2vw,40px)">The colours</h2>
     <div class="palgrid rv d2">
-      <div class="pal"><div class="chip" style="background:#F4F1E4"></div><b>Parchemin</b><span>F4F1E4 · ground</span></div>
-      <div class="pal"><div class="chip" style="background:#EAE3D0"></div><b>Parchemin profond</b><span>EAE3D0 · recessed</span></div>
-      <div class="pal"><div class="chip" style="background:#FBF9F0"></div><b>Crème</b><span>FBF9F0 · exhibits</span></div>
-      <div class="pal"><div class="chip" style="background:#E4DCC6"></div><b>Lin</b><span>E4DCC6 · bands</span></div>
-      <div class="pal"><div class="chip" style="background:#CFC8B4"></div><b>Filet</b><span>CFC8B4 · hairlines</span></div>
-      <div class="pal"><div class="chip" style="background:#A89E86"></div><b>Pierre</b><span>A89E86 · faint</span></div>
-      <div class="pal"><div class="chip" style="background:#8B8168"></div><b>Taupe</b><span>8B8168 · muted</span></div>
-      <div class="pal"><div class="chip" style="background:#6C644C"></div><b>Sépia</b><span>6C644C · engraving</span></div>
-      <div class="pal"><div class="chip" style="background:#3E372E"></div><b>Encre douce</b><span>3E372E · body</span></div>
-      <div class="pal"><div class="chip" style="background:#24211C"></div><b>Encre</b><span>24211C · the record</span></div>
-      <div class="pal"><div class="chip" style="background:#2A231C"></div><b>Espresso</b><span>2A231C · oak</span></div>
-      <div class="pal"><div class="chip" style="background:#1B1712"></div><b>Espresso profond</b><span>1B1712 · cellar</span></div>
-      <div class="pal"><div class="chip" style="background:#7C2D2A"></div><b>Claret</b><span>7C2D2A · the wine</span></div>
-      <div class="pal"><div class="chip" style="background:#551D1B"></div><b>Claret profond</b><span>551D1B · depth</span></div>
-      <div class="pal"><div class="chip" style="background:linear-gradient(135deg,#8A6C3C,#A8894F 55%,#C6AA72)"></div><b>Or</b><span>A8894F · rationed</span></div>
-      <div class="pal"><div class="chip" style="background:#3A7CA0"></div><b>Bleu de certificat</b><span>3A7CA0 · reserved</span></div>
+      <div class="pal" data-c="#F4F1E4"><div class="chip" style="background:#F4F1E4"></div><b>Parchemin</b><span>F4F1E4 · ground</span></div>
+      <div class="pal" data-c="#EAE3D0"><div class="chip" style="background:#EAE3D0"></div><b>Parchemin profond</b><span>EAE3D0 · recessed</span></div>
+      <div class="pal" data-c="#FBF9F0"><div class="chip" style="background:#FBF9F0"></div><b>Crème</b><span>FBF9F0 · exhibits</span></div>
+      <div class="pal" data-c="#E4DCC6"><div class="chip" style="background:#E4DCC6"></div><b>Lin</b><span>E4DCC6 · bands</span></div>
+      <div class="pal" data-c="#CFC8B4"><div class="chip" style="background:#CFC8B4"></div><b>Filet</b><span>CFC8B4 · hairlines</span></div>
+      <div class="pal" data-c="#A89E86"><div class="chip" style="background:#A89E86"></div><b>Pierre</b><span>A89E86 · faint</span></div>
+      <div class="pal" data-c="#8B8168"><div class="chip" style="background:#8B8168"></div><b>Taupe</b><span>8B8168 · muted</span></div>
+      <div class="pal" data-c="#6C644C"><div class="chip" style="background:#6C644C"></div><b>Sépia</b><span>6C644C · engraving</span></div>
+      <div class="pal" data-c="#3E372E"><div class="chip" style="background:#3E372E"></div><b>Encre douce</b><span>3E372E · body</span></div>
+      <div class="pal" data-c="#24211C"><div class="chip" style="background:#24211C"></div><b>Encre</b><span>24211C · the record</span></div>
+      <div class="pal" data-c="#2A231C"><div class="chip" style="background:#2A231C"></div><b>Espresso</b><span>2A231C · oak</span></div>
+      <div class="pal" data-c="#1B1712"><div class="chip" style="background:#1B1712"></div><b>Espresso profond</b><span>1B1712 · cellar</span></div>
+      <div class="pal" data-c="#7C2D2A"><div class="chip" style="background:#7C2D2A"></div><b>Claret</b><span>7C2D2A · the wine</span></div>
+      <div class="pal" data-c="#551D1B"><div class="chip" style="background:#551D1B"></div><b>Claret profond</b><span>551D1B · depth</span></div>
+      <div class="pal" data-c="#A8894F"><div class="chip" style="background:linear-gradient(135deg,#8A6C3C,#A8894F 55%,#C6AA72)"></div><b>Or</b><span>A8894F · rationed</span></div>
+      <div class="pal" data-c="#3A7CA0"><div class="chip" style="background:#3A7CA0"></div><b>Bleu de certificat</b><span>3A7CA0 · reserved</span></div>
     </div>
     <p class="rv d3" style="margin-top:26px;font-size:14px;color:var(--taupe);font-style:italic">We use claret and gold as accents only. The certificate blue appears solely inside a keyline frame.</p>
   </div>
@@ -640,6 +644,26 @@ h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height
     if (e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault();
       slides[Math.max(0,i-1)].scrollIntoView({behavior:'smooth'}); }
   });
+  /* the colour flood */
+  var cs = document.getElementById('colorsSlide');
+  if (cs){
+    var isDark = function(hex){
+      var n = parseInt(hex.slice(1), 16);
+      var r = (n>>16)&255, g = (n>>8)&255, b = n&255;
+      return (r*.299 + g*.587 + b*.114) < 140;
+    };
+    Array.prototype.forEach.call(cs.querySelectorAll('.pal'), function(p){
+      p.addEventListener('pointerenter', function(){
+        cs.style.background = this.dataset.c;
+        cs.classList.toggle('inverted', isDark(this.dataset.c));
+      });
+    });
+    cs.addEventListener('pointerleave', function(){
+      cs.style.background = '';
+      cs.classList.remove('inverted');
+    });
+  }
+
   /* mini register field on slide 21 */
   var mini = document.getElementById('miniField');
   if (mini){
