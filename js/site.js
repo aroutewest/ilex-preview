@@ -46,22 +46,51 @@
   /* on the PDP (no scroll choreography) redactions are simply inked */
   if (!$('#dossTrack')) $$('.redact,.bar').forEach(function(r){ r.classList.add('on'); });
 
-  /* ---------- dossier: pinned scene ---------- */
+  /* ---------- dossier: pinned scene, the record types itself ---------- */
   var dossTrack = $('#dossTrack');
   if (dossTrack){
     var dossHead = $('.doss-head'), dossProse = $('.doss-prose'), dossEx = $('.doss-exhibit');
-    var prosePs = $$('.doss-prose p');
-    var proseRedacts = $$('.doss-prose .redact');
     var exMarks = $$('.doss-exhibit .bar, .doss-exhibit .redact');
-    var exOn = false, redOn = false;
+    /* split the record into word units, keeping redactions whole */
+    var words = [];
+    $$('.doss-prose p').forEach(function(p){
+      var nodes = Array.prototype.slice.call(p.childNodes);
+      p.textContent = '';
+      nodes.forEach(function(nd){
+        if (nd.nodeType === 3){
+          nd.nodeValue.split(/(\s+)/).forEach(function(tok){
+            if (!tok) return;
+            if (/^\s+$/.test(tok)){ p.appendChild(document.createTextNode(tok)); return; }
+            var s = document.createElement('span'); s.className = 'w'; s.textContent = tok;
+            p.appendChild(s); words.push(s);
+          });
+        } else {
+          var s = document.createElement('span'); s.className = 'w'; s.appendChild(nd);
+          p.appendChild(s); words.push(s);
+        }
+      });
+    });
+    var typed = false, exOn = false;
+    function typeOn(){
+      if (typed) return; typed = true;
+      if (reduced){
+        words.forEach(function(w){ w.classList.add('on');
+          var r = w.querySelector('.redact'); if (r) r.classList.add('on'); });
+        return;
+      }
+      var i = 0;
+      var iv = setInterval(function(){
+        if (i >= words.length){ clearInterval(iv); return; }
+        var w = words[i++]; w.classList.add('on');
+        var r = w.querySelector('.redact');
+        if (r) r.classList.add('on');
+      }, 34);
+    }
     function dossScroll(){
       var r = dossTrack.getBoundingClientRect();
       var p = clamp(-r.top/(r.height - innerHeight));
       dossHead.classList.toggle('on', p > .02);
-      prosePs.forEach(function(el, i){ el.classList.toggle('on', p > .06 + i*.055); });
-      if (!redOn && p > .14){ redOn = true;
-        proseRedacts.forEach(function(el, i){ setTimeout(function(){ el.classList.add('on'); }, 350 + i*260); });
-      }
+      if (p > .05) typeOn();
       var t2 = reduced ? 1 : clamp((p - .42)/.22);
       if (!reduced && innerWidth > 900){
         dossProse.style.transform = 'translateX(' + ((1-t2)*26).toFixed(2) + '%)';
@@ -72,10 +101,9 @@
       }
     }
     addEventListener('scroll', dossScroll, {passive:true}); dossScroll();
-    if (reduced){ dossHead.classList.add('on');
-      prosePs.forEach(function(el){ el.classList.add('on'); });
+    if (reduced){ dossHead.classList.add('on'); typeOn();
       dossEx.classList.add('on');
-      proseRedacts.concat(exMarks).forEach(function(el){ el.classList.add('on'); });
+      exMarks.forEach(function(el){ el.classList.add('on'); });
     }
   }
 
@@ -124,13 +152,19 @@
     if (reduced){ sepVal.textContent = '0,5'; sepRule.style.transform = 'scaleX(1)'; }
     new IntersectionObserver(function(es){ es.forEach(function(e){ sepVisible = e.isIntersecting; }); }, {threshold:0}).observe(track);
 
-    /* slow bubbles, full width, two depths — nothing flickers */
+    /* slow bubbles: born anywhere on screen, rising gently — nothing flickers */
     var spawnBub = function(w, h, deep){
-      return { x: Math.random()*w, y: h + 20 + Math.random()*h*.3,
+      return { x: Math.random()*w, y: Math.random()*h*1.12,
         vy: (deep ? .08 : .16) + Math.random()*(deep ? .18 : .3),
         vx: (Math.random()-.5)*.08,
         r: deep ? (3 + Math.random()*6) : (1.4 + Math.random()*3.2),
         life: 0, max: 900 + Math.random()*700, deep: deep };
+    };
+    var seeded = false;
+    var seedBubs = function(w, h){
+      if (seeded) return; seeded = true;
+      for (var i=0;i<30;i++){ var b=spawnBub(w,h,true); b.life=Math.random()*b.max*.5; bubB.push(b); }
+      for (var j=0;j<22;j++){ var f=spawnBub(w,h,false); f.life=Math.random()*f.max*.5; bubF.push(f); }
     };
     var drawBubs = function(ctx, arr, w, h, want, deep, intensity){
       ctx.clearRect(0,0,w,h);
@@ -154,9 +188,10 @@
       requestAnimationFrame(sepLoop);
       if (reduced || !sepVisible) return;
       var w = cB.offsetWidth, h = cB.offsetHeight;
-      var intensity = Math.max(Math.sin(Math.min(sepP,1)*Math.PI), sepP > .5 ? .5 : 0);
-      drawBubs(xB, bubB, w, h, Math.floor(34*intensity + 6), true, intensity);
-      drawBubs(xF, bubF, w, h, Math.floor(26*intensity + 4), false, intensity);
+      seedBubs(w, h);
+      var intensity = Math.max(Math.sin(Math.min(sepP,1)*Math.PI), .32);
+      drawBubs(xB, bubB, w, h, Math.floor(30*intensity + 10), true, intensity);
+      drawBubs(xF, bubF, w, h, Math.floor(22*intensity + 8), false, intensity);
     };
     sepLoop();
   }
@@ -178,23 +213,24 @@
 
   /* the count arrives like a ledger being tallied — fast, then one by one */
   var tickEl = $('.reg-count .n');
+  var ticked = false;
+  var startTally = function(){
+    if (!tickEl || ticked) return;
+    ticked = true;
+    if (reduced){ tickEl.textContent = fmt(remaining); return; }
+    var t0 = performance.now(), DUR = 3500;
+    var tick = function(ts){
+      var p = Math.min(1, (ts - t0)/DUR);
+      var eased = 1 - Math.pow(1 - p, 6);
+      tickEl.textContent = fmt(Math.round(remaining*eased));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
   if (tickEl){
     tickEl.textContent = '0';
-    var ticked = false;
     new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if (!e.isIntersecting || ticked) return;
-        ticked = true;
-        if (reduced){ tickEl.textContent = fmt(remaining); return; }
-        var t0 = performance.now(), DUR = 3500;
-        var tick = function(ts){
-          var p = Math.min(1, (ts - t0)/DUR);
-          var eased = 1 - Math.pow(1 - p, 6);
-          tickEl.textContent = fmt(Math.round(remaining*eased));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      });
+      es.forEach(function(e){ if (e.isIntersecting) startTally(); });
     }, {threshold:.6}).observe(tickEl);
   }
 
@@ -203,7 +239,7 @@
   if (theatre){
     var regCanvas = $('#regCanvas'), rctx = regCanvas.getContext('2d');
     var regCta = $('#regCta'), stage = $('.reg-stage', theatre), tip = $('#regTip');
-    var cell=0, dotR=0, hoverIdx=-1, regP=0, regVisible=false;
+    var cell=0, dotR=0, hoverIdx=-1, regP=0, regVisible=false, igniteP=0, ignited=false;
     var claretCol='#7C2D2A', inkFaint='rgba(36,33,28,.30)';
     var sizeReg = function(){
       cell = Math.min(innerWidth*.965/COLS, innerHeight*.62/ROWS);
@@ -217,7 +253,7 @@
     var drawReg = function(){
       var w = cell*COLS, h = cell*ROWS;
       rctx.clearRect(0,0,w,h);
-      var reveal = reduced ? 1 : clamp(regP*2.4);
+      var reveal = reduced ? 1 : igniteP;
       for (var idx=0; idx<TOTAL; idx++){
         /* each mark arrives on its own — scattered, not in a wave */
         var e = clamp((reveal*1.12 - hash(idx))/.09);
@@ -241,10 +277,27 @@
     sizeReg(); addEventListener('resize', function(){ sizeReg(); drawReg(); });
     new IntersectionObserver(function(es){ es.forEach(function(e){ regVisible = e.isIntersecting; }); }, {threshold:0}).observe(theatre);
     var easeOutCubic = function(x){ return 1 - Math.pow(1-x,3); };
+    /* the field ignites on arrival — three seconds, every mark on its own clock */
+    var igniteNow = function(){
+      if (ignited) return;
+      ignited = true;
+      startTally();
+      if (reduced){ igniteP = 1; return; }
+      var t0 = performance.now(), DUR = 3200;
+      (function ig(ts){
+        var p = Math.min(1, (ts - t0)/DUR);
+        igniteP = easeOutCubic(p);
+        if (p < 1) requestAnimationFrame(ig);
+      })(t0);
+    };
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting) igniteNow(); });
+    }, {threshold:.15}).observe(regCanvas);
     var lastReveal = -1;
     function regScroll(){
       var r = theatre.getBoundingClientRect();
       regP = clamp(-r.top/(r.height - innerHeight));
+      if (regP > .01 && r.top < innerHeight) igniteNow();
       var pp = clamp((regP - .5)/.24);
       regCta.style.transform = 'translate(-50%,' + (reduced ? 0 : (1-easeOutCubic(pp))*150).toFixed(2) + '%)';
     }
@@ -252,7 +305,7 @@
     (function regLoop(){
       requestAnimationFrame(regLoop);
       if (!regVisible) return;
-      var reveal = reduced ? 1 : clamp(regP*2.4);
+      var reveal = reduced ? 1 : igniteP;
       if (Math.abs(reveal - lastReveal) > .002 || hoverIdx !== -2){ drawReg(); lastReveal = reveal; }
     })();
     regCanvas.addEventListener('pointermove', function(e){
