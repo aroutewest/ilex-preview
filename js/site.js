@@ -389,8 +389,8 @@
       b.addEventListener('click', function(){
         qty = parseInt(this.dataset.q, 10);
         $$('.formats button').forEach(function(x){ x.classList.toggle('on', x===b); });
-        if (qty === 6){ priceMain.textContent = '234 €'; priceNote.textContent = 'la caisse de six · 39 € la bouteille'; }
-        else { priceMain.textContent = '117 €'; priceNote.textContent = 'trois bouteilles · 39 € la bouteille'; }
+        if (qty === 6){ priceMain.textContent = '234 €'; priceNote.textContent = 'a case of six · 39 € per bottle'; }
+        else { priceMain.textContent = '117 €'; priceNote.textContent = 'three bottles · 39 € per bottle'; }
       });
     });
     chips.forEach(function(c){
