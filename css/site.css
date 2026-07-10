@@ -150,15 +150,15 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .stats-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;
   align-items:center;justify-content:center}
 .stats .sprig{position:absolute;top:8vh;left:50%;transform:translateX(-50%);height:100px;opacity:.8}
-.stats-inner{position:relative;max-width:1200px;margin:0 auto 30vh;padding:0 5vw;display:grid;
+.stats-inner{position:relative;max-width:1200px;margin:0 auto 36vh;padding:0 5vw;display:grid;
   grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;width:100%}
 @media(max-width:760px){.stats-inner{grid-template-columns:1fr 1fr;gap:44px 20px;margin-bottom:34vh}}
 .stat .n{font-family:var(--font-display);font-size:clamp(44px,6vw,84px);color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
 .stat .l{font-family:var(--law);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--sepia);margin-top:16px}
 .stat .r{width:34px;height:1px;background:var(--gold);margin:22px auto 0}
-.backdrop-wrap{position:absolute;left:0;right:0;bottom:0;height:33vh;overflow:hidden;
+.backdrop-wrap{position:absolute;left:0;right:0;bottom:0;height:46vh;overflow:hidden;
   pointer-events:none;transform:translateY(50%);will-change:transform}
-.backdrop-wrap img{width:100%;height:120%;object-fit:cover;object-position:50% 46%;opacity:.5;
+.backdrop-wrap img{width:100%;height:112%;object-fit:cover;object-position:50% 62%;opacity:.5;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%);mask-image:linear-gradient(180deg,transparent 0,#000 30%)}
 .stats .foot{position:absolute;bottom:2.5vh;left:50%;transform:translateX(-50%);z-index:2;
   font-family:var(--hand);font-size:24px;color:var(--claret);white-space:nowrap}
