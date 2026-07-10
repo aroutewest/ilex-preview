@@ -122,6 +122,7 @@
         mapBg.style.transform = 'translateY(' + ((1-mv)*6).toFixed(2) + '%)';
       }
       dossHead.classList.toggle('on', p > .02);
+      dossProse.classList.toggle('on', p > .02);
       if (p > .05) typeOn();
       var t2 = reduced ? 1 : clamp((p - .42)/.22);
       if (!reduced && innerWidth > 900){
@@ -133,7 +134,7 @@
       }
     }
     addEventListener('scroll', dossScroll, {passive:true}); dossScroll();
-    if (reduced){ dossHead.classList.add('on'); typeOn();
+    if (reduced){ dossHead.classList.add('on'); dossProse.classList.add('on'); typeOn();
       dossEx.classList.add('on');
       exMarks.forEach(function(el){ el.classList.add('on'); });
     }

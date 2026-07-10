@@ -194,8 +194,9 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
 .doss-head p{font-style:italic;color:var(--taupe);font-size:17.5px}
 .doss-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;
   max-width:1160px;width:100%}
-.doss-prose{transition:transform 1.1s var(--ease-luxe);will-change:transform;
-  padding:30px 34px;background:rgba(244,241,228,.82)}
+.doss-prose{opacity:0;transition:transform 1.1s var(--ease-luxe),opacity .9s var(--ease-luxe);
+  will-change:transform;padding:30px 34px;background:rgba(244,241,228,.82)}
+.doss-prose.on{opacity:1}
 .doss-prose p{margin-bottom:1.3em;max-width:56ch}
 .doss-prose p:last-child{margin-bottom:0}
 .doss-prose .w{opacity:0;transition:opacity .3s ease}
@@ -407,6 +408,6 @@ body.arrived .hero .cue{animation:fadeIn 1.4s var(--ease-luxe) 4.7s forwards}
   .rv,.stx{opacity:1;transform:none;transition:none}
   .dossier .map-bg img{animation:none}
   .redact::after,.bar{transform:scaleX(1);transition:none}
-  .doss-head,.doss-exhibit,.sep-finale p{opacity:1;transform:none;transition:none}
+  .doss-head,.doss-prose,.doss-exhibit,.sep-finale p{opacity:1;transform:none;transition:none}
   .doss-prose .w{opacity:1;transition:none}
 }
