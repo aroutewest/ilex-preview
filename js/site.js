@@ -42,6 +42,9 @@
       var rise = reduced ? 1 : clamp(pin/.42);
       var eased = 1 - Math.pow(1-rise, 3);
       vinesWrap.style.transform = 'translateY(' + ((1-eased)*50).toFixed(2) + '%)';
+      if (rise > .96 || reduced){
+        Array.prototype.forEach.call(statsSec.querySelectorAll('.stx'), function(el){ el.classList.add('in'); });
+      }
       var rS = statsSec.getBoundingClientRect();
       var overlap = Math.max(0, Math.min(rS.bottom, innerHeight) - Math.max(rS.top, 0)) / innerHeight;
       var m2 = overlap*overlap*(3 - 2*overlap);
