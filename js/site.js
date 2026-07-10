@@ -5,10 +5,20 @@
   var $ = function(s, c){ return (c||document).querySelector(s); };
   var $$ = function(s, c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
 
-  /* ---------- nav ---------- */
+  /* ---------- nav: hidden inside the experience, summoned by leaving it ---------- */
   var nav = $('.nav');
-  function navState(){ if (nav) nav.classList.toggle('solid', scrollY > 8); }
-  addEventListener('scroll', navState, {passive:true}); navState();
+  var lastY = scrollY;
+  function navState(){
+    if (!nav) return;
+    var y = scrollY;
+    if (y < lastY - 3 || (y < 10 && lastY > 10)) nav.classList.add('show');
+    else if (y > lastY + 5 && y > 90) nav.classList.remove('show');
+    lastY = y;
+  }
+  addEventListener('scroll', navState, {passive:true});
+  addEventListener('pointermove', function(e){
+    if (nav && e.clientY < 70) nav.classList.add('show');
+  }, {passive:true});
 
   var panier = $('#panier'), panierN = 0;
 
@@ -240,14 +250,6 @@
     });
     var q = new URLSearchParams(location.search).get('n');
     if (q && +q >= 1 && +q <= 4000) setNo(+q);
-
-    /* gallery */
-    $$('.thumbs button').forEach(function(b){
-      b.addEventListener('click', function(){
-        $('.gallery .main img').src = this.dataset.src;
-        $$('.thumbs button').forEach(function(x){ x.classList.toggle('on', x===b); });
-      });
-    });
 
     /* seal = add to allocation */
     var seal = $('#sealBtn'), done = $('#sealDone');
