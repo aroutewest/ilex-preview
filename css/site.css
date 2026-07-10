@@ -100,8 +100,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:400;color:var(--ink);line-h
 .hero .tree{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);height:74vh;max-height:600px;
   opacity:0;mix-blend-mode:multiply;filter:sepia(.25);pointer-events:none}
 .hero-inner{position:relative;z-index:2;padding:60px 24px 90px}
-.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:38vh;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(228,220,198,0) 0%,rgba(228,220,198,.55) 55%,var(--linen) 100%)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58vh;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(228,220,198,0) 0%,rgba(228,220,198,.45) 45%,rgba(228,220,198,.85) 75%,var(--linen) 100%)}
 .hero .eyebrow{opacity:0}
 .hero h1{font-size:clamp(72px,11vw,150px);letter-spacing:.24em;text-indent:.24em;margin:22px 0 6px}
 .hero h1 span{opacity:0;display:inline-block}
