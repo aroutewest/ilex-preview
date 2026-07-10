@@ -29,15 +29,23 @@
 
   var panier = $('#panier'), panierN = 0;
 
-  /* ---------- the vineyard rises into the numbers section ---------- */
+  /* ---------- the page itself changes colour through the numbers section ---------- */
   var statsSec = $('.stats');
   if (statsSec){
     var vinesBk = $('.stats .backdrop');
+    var heroVig = $('.hero .vig');
+    var PARCH = [244,241,228], LINEN = [228,220,198];
     var statScroll = function(){
-      if (reduced){ vinesBk.style.transform = 'translate(-50%,0)'; return; }
       var r = statsSec.getBoundingClientRect();
-      var p = clamp((innerHeight - r.top) / (innerHeight + r.height*.5));
-      vinesBk.style.transform = 'translate(-50%,' + ((1-p)*44).toFixed(2) + '%)';
+      var overlap = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / innerHeight;
+      var m = overlap*overlap*(3 - 2*overlap);
+      var c = [0,1,2].map(function(i){ return Math.round(PARCH[i] + (LINEN[i]-PARCH[i])*m); });
+      document.body.style.backgroundColor = 'rgb(' + c.join(',') + ')';
+      if (heroVig) heroVig.style.opacity = (1 - Math.min(1, m*1.6)).toFixed(3);
+      if (!reduced){
+        var p = clamp((innerHeight - r.top) / (innerHeight + r.height*.5));
+        vinesBk.style.transform = 'translate(-50%,' + ((1-p)*44).toFixed(2) + '%)';
+      } else vinesBk.style.transform = 'translate(-50%,0)';
     };
     addEventListener('scroll', statScroll, {passive:true}); statScroll();
   }
