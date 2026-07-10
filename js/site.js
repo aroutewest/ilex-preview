@@ -245,17 +245,17 @@
   $$('.js-remaining').forEach(function(el){ el.textContent = fmt(remaining); });
 
   /* the count arrives like a ledger being tallied — fast, then one by one */
-  var tickEl = $('.reg-count .n');
+  var tickEl = $('#regTotal');
   var ticked = false;
   var startTally = function(){
     if (!tickEl || ticked) return;
     ticked = true;
-    if (reduced){ tickEl.textContent = fmt(remaining); return; }
+    if (reduced){ tickEl.textContent = fmt(TOTAL); return; }
     var t0 = performance.now(), DUR = 3500;
     var tick = function(ts){
       var p = Math.min(1, (ts - t0)/DUR);
       var eased = 1 - Math.pow(1 - p, 6);
-      tickEl.textContent = fmt(Math.round(remaining*eased));
+      tickEl.textContent = fmt(Math.round(TOTAL*eased));
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
