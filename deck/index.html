@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ILEX — L'Interdit · The Narrative</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Zeyada&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --parchment:#F4F1E4; --parchment-deep:#EAE3D0; --cream:#FBF9F0; --linen:#E4DCC6;
+  --ink:#24211C; --ink-soft:#3E372E; --sepia:#6C644C; --taupe:#8B8168; --stone:#A89E86;
+  --hair:#CFC8B4; --hair-soft:#DED8C6;
+  --espresso:#2A231C; --espresso-deep:#1B1712;
+  --claret:#7C2D2A; --claret-deep:#551D1B; --claret-lift:#A4574E;
+  --gold:#A8894F; --gold-soft:#C6AA72; --keyline-blue:#3A7CA0;
+  --display:'Baskervville',Baskerville,'Times New Roman',serif;
+  --serif:'Libre Baskerville',Baskerville,Georgia,serif;
+  --law:'Courier Prime','American Typewriter','Courier New',monospace;
+  --hand:'Zeyada',cursive;
+  --luxe:cubic-bezier(.16,1,.3,1);
+  color-scheme:only light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+body{background:var(--parchment);color:var(--ink-soft);font-family:var(--serif);
+  font-size:16px;line-height:1.66;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--ink);color:transparent}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--display);font-weight:400;color:var(--ink);line-height:1.12}
+
+.slide{min-height:100vh;scroll-snap-align:start;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:9vh 8vw}
+.slide.dark{background:var(--espresso-deep);color:rgba(234,227,208,.82)}
+.slide.dark h1,.slide.dark h2,.slide.dark h3{color:var(--parchment-deep)}
+.slide.deep{background:var(--parchment-deep)}
+
+.eyebrow{font-family:var(--law);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--sepia)}
+.slide.dark .eyebrow{color:rgba(234,227,208,.5)}
+.eyebrow.claret{color:var(--claret)}
+.goldrule{width:44px;height:1px;background:var(--gold);border:none;margin:22px auto}
+.hand{font-family:var(--hand);color:var(--claret);font-size:24px;line-height:1.3}
+.slide.dark .hand{color:var(--gold-soft)}
+.kicker{font-family:var(--display);font-style:italic;color:var(--taupe);font-size:18px}
+
+/* backdrops */
+.bg{position:absolute;pointer-events:none;mix-blend-mode:multiply}
+.slide.dark .bg{mix-blend-mode:screen;filter:invert(.92) sepia(.3)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity 1.1s var(--luxe),transform 1.1s var(--luxe)}
+.slide.now .rv{opacity:1;transform:none}
+.slide.now .rv.d1{transition-delay:.15s}.slide.now .rv.d2{transition-delay:.3s}
+.slide.now .rv.d3{transition-delay:.45s}.slide.now .rv.d4{transition-delay:.6s}
+
+/* redaction */
+.redact{position:relative;display:inline-block;white-space:nowrap;padding:0 .05em;color:transparent;
+  user-select:none;-webkit-user-select:none}
+.redact::after{content:"";position:absolute;inset:.1em 0 .05em;background:var(--ink)}
+.slide.dark .redact::after{background:var(--parchment-deep)}
+
+/* cover */
+.cover .tree-bg{left:50%;top:52%;transform:translate(-50%,-50%);height:88vh;opacity:.15;filter:sepia(.25)}
+.cover h1{font-size:clamp(80px,13vw,180px);letter-spacing:.24em;text-indent:.24em}
+.cover .stamp{position:absolute;top:10%;right:8%;font-family:var(--law);font-size:13px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--claret);border:2px solid var(--claret);border-radius:3px;
+  padding:.5em .9em .4em;transform:rotate(-7deg);opacity:.72}
+
+/* part dividers */
+.part .no{font-family:var(--display);font-size:clamp(90px,14vw,170px);line-height:1;color:var(--ink)}
+.part.dark .no{color:var(--parchment-deep)}
+.part h2{font-size:clamp(34px,4.6vw,54px);font-style:italic;margin-top:10px}
+.part .bgimg{opacity:.12}
+
+/* content slides */
+.body-max{max-width:880px;text-align:center}
+.body-max p{margin-top:20px;font-size:clamp(16px,1.5vw,19px);max-width:62ch;margin-left:auto;margin-right:auto}
+.big-line{font-family:var(--display);font-style:italic;font-size:clamp(28px,3.8vw,48px);line-height:1.35;text-wrap:balance;max-width:24em}
+.big-line em{color:var(--claret);font-style:italic}
+.slide.dark .big-line em{color:var(--claret-lift)}
+
+/* two-col */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1080px;width:100%}
+@media(max-width:860px){.duo{grid-template-columns:1fr;gap:36px}}
+.duo .visual{display:flex;align-items:center;justify-content:center}
+.duo h3{font-size:clamp(26px,3vw,38px);margin-bottom:14px}
+.duo p{margin-top:14px;font-size:15.5px}
+.duo .why{margin-top:22px;padding-top:18px;border-top:1px solid var(--hair)}
+.duo .why b{font-family:var(--law);font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--claret);font-weight:400;display:block;margin-bottom:8px}
+.slide.dark .duo .why{border-top-color:rgba(198,170,114,.25)}
+.slide.dark .duo .why b{color:var(--gold-soft)}
+
+/* ledger of decisions */
+.ledger{max-width:940px;width:100%}
+.ledger h2{text-align:center;font-size:clamp(30px,3.6vw,44px);margin-bottom:8px}
+.ledger .sub{text-align:center;margin-bottom:40px}
+.decision{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;padding:24px 8px;border-top:1px solid var(--hair);align-items:baseline}
+.decision:last-child{border-bottom:1px solid var(--hair)}
+@media(max-width:760px){.decision{grid-template-columns:1fr;gap:8px}}
+.decision .what{font-family:var(--display);font-size:clamp(18px,1.9vw,23px);color:var(--ink)}
+.decision .why{font-size:14.5px;color:var(--taupe)}
+.decision .why i{font-family:var(--hand);font-style:normal;color:var(--claret);font-size:19px}
+
+/* palette daubs */
+.daubs{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.daub{width:110px;text-align:center}
+.daub .chip{width:84px;height:92px;margin:0 auto 12px;border-radius:52% 48% 55% 45%/48% 52% 46% 54%;
+  box-shadow:inset 0 2px 10px rgba(36,33,28,.18),0 10px 22px -14px rgba(36,33,28,.5)}
+.daub b{font-family:var(--display);font-weight:400;font-style:italic;font-size:15px;display:block}
+.daub span{font-family:var(--law);font-size:9.5px;letter-spacing:.14em;color:var(--taupe);text-transform:uppercase}
+
+/* voices */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1040px;width:100%;margin-top:40px}
+@media(max-width:860px){.voices{grid-template-columns:1fr}}
+.voice{border:1px solid var(--hair);padding:26px 24px;background:var(--cream);text-align:left}
+.voice .who{font-family:var(--law);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--claret);display:block;margin-bottom:14px}
+.voice .spec{font-size:21px;line-height:1.45;min-height:3.2em}
+.voice.v-estate .spec{font-family:var(--display)}
+.voice.v-law .spec{font-family:var(--law);font-size:13px;line-height:1.8;color:var(--ink-soft)}
+.voice.v-hand .spec{font-family:var(--hand);font-size:25px;color:var(--claret)}
+.voice .note{font-size:13px;color:var(--taupe);font-style:italic;margin-top:12px}
+
+/* plates row */
+.plates{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;max-width:1080px;width:100%;margin-top:40px}
+@media(max-width:860px){.plates{grid-template-columns:repeat(3,1fr)}}
+.plate{border:1px solid var(--hair);background:var(--cream);padding:8px;position:relative}
+.plate img{width:100%;aspect-ratio:1/1.15;object-fit:cover;mix-blend-mode:multiply}
+.plate figcaption{font-family:var(--law);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--taupe);padding:8px 2px 2px;text-align:center}
+
+/* section walkthrough */
+.walk{max-width:1080px;width:100%;display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center}
+@media(max-width:860px){.walk{grid-template-columns:1fr;gap:30px}}
+.walk .tag{font-family:var(--law);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--claret);display:block;margin-bottom:14px}
+.slide.dark .walk .tag{color:var(--gold-soft)}
+.walk h3{font-size:clamp(30px,3.8vw,46px)}
+.walk .what{margin-top:18px;font-size:16px}
+.walk ul{margin-top:18px;list-style:none}
+.walk li{padding:10px 0;border-top:1px solid var(--hair);font-size:14.5px;color:var(--taupe)}
+.slide.dark .walk li{border-top-color:rgba(234,227,208,.14);color:rgba(234,227,208,.65)}
+.walk li b{color:var(--ink);font-weight:400;font-family:var(--display);font-size:16px}
+.slide.dark .walk li b{color:var(--parchment-deep)}
+.walk .visual img{mix-blend-mode:multiply}
+.slide.dark .walk .visual img{mix-blend-mode:screen;filter:invert(.92) sepia(.3)}
+
+/* progress */
+.folio{position:fixed;bottom:20px;right:26px;z-index:50;font-family:var(--law);font-size:10.5px;
+  letter-spacing:.24em;color:var(--taupe)}
+.hint{position:fixed;bottom:20px;left:26px;z-index:50;font-family:var(--hand);font-size:19px;color:var(--stone)}
+
+
+/* manifesto extras */
+.palgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:14px;max-width:1080px;width:100%;margin-top:36px}
+@media(max-width:860px){.palgrid{grid-template-columns:repeat(4,1fr)}}
+.pal .chip{height:64px;border:1px solid rgba(36,33,28,.12)}
+.pal b{font-family:var(--display);font-weight:400;font-style:italic;font-size:13.5px;display:block;margin-top:9px;color:var(--ink)}
+.pal span{font-family:var(--law);font-size:9px;letter-spacing:.12em;color:var(--taupe);text-transform:uppercase}
+.wordmark-hero{font-family:var(--display);font-size:clamp(90px,15vw,200px);letter-spacing:.24em;text-indent:.24em;color:var(--ink);line-height:1}
+.wm-rules{display:flex;gap:34px;justify-content:center;flex-wrap:wrap;margin-top:40px;
+  font-family:var(--law);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--sepia)}
+.devices{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1040px;width:100%;margin-top:40px}
+@media(max-width:860px){.devices{grid-template-columns:1fr 1fr}}
+.device{border:1px solid var(--hair);background:var(--cream);padding:26px 22px 20px;text-align:center;min-height:150px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.device .lbl{font-family:var(--law);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--taupe)}
+.device .frame-demo{width:120px;height:76px;border:1px solid var(--hair);position:relative;background:var(--cream)}
+.device .frame-demo::after{content:"";position:absolute;inset:7px;border:1px solid rgba(58,124,160,.45)}
+.device .stamp-demo{font-family:var(--law);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--claret);
+  border:2px solid var(--claret);border-radius:3px;padding:.5em .9em .4em;transform:rotate(-7deg);opacity:.75}
+.device .gilt{font-family:var(--display);font-size:30px;
+  background:linear-gradient(105deg,#8A6C3C,#A8894F 45%,#C6AA72 55%,#8A6C3C);-webkit-background-clip:text;background-clip:text;color:transparent}
+.device .dots i{display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 7px}
+.device .seal-demo{width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#96423E,#7C2D2A 58%,#551D1B 100%);
+  box-shadow:inset 0 2px 6px rgba(255,255,255,.16),inset 0 -4px 10px rgba(0,0,0,.4);
+  display:grid;place-items:center;color:#C6AA72;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-indent:.16em}
+.sig-lines{list-style:none;text-align:left}
+.sig-lines li{font-family:var(--display);font-style:italic;font-size:clamp(19px,2.1vw,26px);color:var(--ink);
+  padding:16px 4px;border-top:1px solid var(--hair)}
+.sig-lines li:last-child{border-bottom:1px solid var(--hair)}
+.sig-lines li em{color:var(--claret);font-style:italic}
+.rules-list{list-style:none;text-align:left}
+.rules-list li{padding:13px 4px;border-top:1px solid var(--hair);font-size:14.5px;color:var(--taupe)}
+.rules-list li b{color:var(--ink);font-weight:400;font-family:var(--display);font-size:16.5px;display:block}
+.type-spec{max-width:940px;width:100%;text-align:left;margin-top:26px}
+.type-row{display:grid;grid-template-columns:200px 1fr;gap:34px;align-items:baseline;padding:20px 6px;border-top:1px solid var(--hair)}
+.type-row:last-child{border-bottom:1px solid var(--hair)}
+@media(max-width:760px){.type-row{grid-template-columns:1fr;gap:6px}}
+.type-row .use{font-family:var(--law);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--claret)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;scroll-snap-type:none}
+  .rv{opacity:1;transform:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- 01 · COVER -->
+<section class="slide cover">
+  <img class="bg tree-bg" src="../assets/01-tree.jpg" alt="">
+  <span class="stamp">Déclassé</span>
+  <div class="rv" style="text-align:center">
+    <span class="eyebrow">Ilex · the narrative of the experience · Juillet MMXXVI</span>
+    <h1 style="margin-top:26px">ILEX</h1>
+    <hr class="goldrule">
+    <p class="kicker">L’Interdit — the story of a website for a wine<br>that may not say where it is from.</p>
+  </div>
+</section>
+
+<!-- 02 · PART I -->
+<section class="slide part deep">
+  <img class="bg bgimg" src="../assets/08-sprig.jpg" alt="" style="right:8%;top:50%;transform:translateY(-50%);height:60vh">
+  <div class="rv" style="text-align:center">
+    <div class="no">I</div>
+    <h2>The Brief</h2>
+  </div>
+</section>
+
+<!-- 03 · THE ASK -->
+<section class="slide">
+  <div class="body-max">
+    <span class="eyebrow claret rv">What we were asked for</span>
+    <p class="big-line rv d1" style="margin:26px auto 0">An immersive experience for a heritage maison<br>that happens to have been born this year.</p>
+    <p class="rv d2">Six thousand six hundred bottles of the first 0,5 % Grand Cru Classé-quality Bordeaux, sold direct. The site must drip luxury and exude scarcity — in a category that usually offers a dusty photograph of tied lavender and an apology.</p>
+    <p class="hand rv d3" style="margin-top:26px">“dream big here.”</p>
+  </div>
+</section>
+
+<!-- 04 · THE CATEGORY -->
+<section class="slide deep">
+  <div class="body-max">
+    <span class="eyebrow claret rv">The problem worth having</span>
+    <h2 class="rv d1" style="font-size:clamp(28px,3.6vw,44px);margin-top:20px">Two aisles, two apologies.</h2>
+    <p class="rv d2">Non-alcoholic wine apologises for what it lacks — clinical, functional, “all the taste, none of the…”. Luxury Bordeaux apologises for nothing ever changing — the gravel drive, the château gates, <i>depuis 1855</i>. Nobody in either aisle is proud of the one thing that makes them interesting.</p>
+    <p class="rv d3">Ilex is the first product with something genuinely new to be proud of — and a reason it cannot brag: the moment its alcohol left, French law took its name away.</p>
+  </div>
+</section>
+
+<!-- 05 · PART II -->
+<section class="slide part dark">
+  <img class="bg bgimg" src="../assets/04-map.jpg" alt="" style="left:50%;top:50%;transform:translate(-50%,-50%);width:110%;opacity:.1">
+  <div class="rv" style="text-align:center">
+    <div class="no">II</div>
+    <h2>The Concept</h2>
+  </div>
+</section>
+
+<!-- 06 · THE LEGAL FACT -->
+<section class="slide">
+  <div class="duo">
+    <div class="rv">
+      <span class="eyebrow claret">The fact we built on</span>
+      <h3 style="margin-top:16px">The law wrote the brand story for us.</h3>
+      <p>Règlement (UE) 2021/2117: a fully dealcoholised wine may not carry its protected designation of origin. At 0,5 % it is denied even <em>Vin de France</em>.</p>
+      <p>Grand Cru Classé fruit, limestone terroir, oak élevage — legally forbidden from telling you where it is from. <b>Sans appellation.</b> Stateless.</p>
+      <div class="why"><b>Why it matters</b>This is not a fiction we must maintain. It is a true, documented provocation — and the antagonist is the appellation system itself.</div>
+    </div>
+    <div class="visual rv d1">
+      <div style="border:1px solid var(--hair);background:var(--cream);padding:34px;position:relative;max-width:420px;font-family:var(--law);font-size:12.5px;line-height:1.9;color:var(--ink-soft)">
+        <span style="position:absolute;top:-11px;left:22px;background:var(--parchment);border:1px solid var(--hair);padding:2px 10px;font-size:9.5px;letter-spacing:.26em;color:var(--claret)">EXHIBIT A — LA LOI</span>
+        ORIGIN: <span class="redact">Saint-Émilion</span>, GIRONDE.<br>
+        ESTATE: <span class="redact">Franc Mayne</span>, GRAND CRU CLASSÉ.<br>
+        VARIETY: MERLOT NOIR, 100 PCT.<br>
+        STATUS: <span style="color:var(--claret)">DÉCLASSÉ — SANS APPELLATION</span>
+        <div class="hand" style="margin-top:14px;font-size:21px">— seen, recorded, and rather enjoyed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · THESIS -->
+<section class="slide dark">
+  <img class="bg" src="../assets/06-apparatus.jpg" alt="" style="left:50%;top:50%;transform:translate(-50%,-50%);width:min(700px,80vw);opacity:.1">
+  <div style="text-align:center">
+    <span class="eyebrow rv">The thesis</span>
+    <p class="big-line rv d1" style="margin:30px auto 0">“The law forbids us to say<br>where this wine is from.<br><em>The wine, however, is under<br>no such obligation.”</em></p>
+    <p class="hand rv d2" style="margin-top:34px">l’interdit — the first estate proud to be declassified.</p>
+  </div>
+</section>
+
+<!-- 08 · THE MOVE -->
+<section class="slide">
+  <div class="body-max">
+    <span class="eyebrow claret rv">The move</span>
+    <h2 class="rv d1" style="font-size:clamp(28px,3.6vw,44px);margin-top:20px">Don’t hide the wound. Decorate it.</h2>
+    <p class="rv d2">Every mention of the origin is struck through in ink, worn like a medal. The site is built as a dossier — evidence presented with notarial extravagance, so the reader reaches the verdict the law cannot. Scarcity is not claimed; it is witnessed, in a public register of 6,600 numbered bottles.</p>
+    <p class="rv d3">The lesson of the great invented institutions of luxury — the fictional clubs, the imaginary heritage — is that the <em>world</em> sells the product. Ours needs no invention. Every fact on the site is true; only the name is missing.</p>
+  </div>
+</section>
+
+<!-- 09 · PART III -->
+<section class="slide part deep">
+  <img class="bg bgimg" src="../assets/05-chateau.jpg" alt="" style="left:50%;bottom:-4%;transform:translateX(-50%);width:90%;opacity:.14">
+  <div class="rv" style="text-align:center">
+    <div class="no">III</div>
+    <h2>The Manifesto — Bringing It to Life</h2>
+    <p class="kicker" style="margin-top:16px">The whole language is lifted from the bottle.</p>
+  </div>
+</section>
+
+<!-- 10 · THE WORDMARK -->
+<section class="slide">
+  <div style="text-align:center">
+    <span class="eyebrow claret rv">The wordmark</span>
+    <div class="wordmark-hero rv d1" style="margin-top:30px">ILEX</div>
+    <img class="rv d2" src="../assets/07-seal.jpg" alt="" style="height:72px;margin:34px auto 0;mix-blend-mode:multiply;opacity:.85">
+    <div class="wm-rules rv d3">
+      <span>Tracked .24em, always</span><span>·</span>
+      <span>Never bold, never italic</span><span>·</span>
+      <span>The crest beneath, never beside</span><span>·</span>
+      <span>The stamp may lean; the wordmark never</span>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · THE COLORS -->
+<section class="slide">
+  <div style="text-align:center;width:100%;max-width:1080px">
+    <span class="eyebrow claret rv">The colours</span>
+    <h2 class="rv d1" style="font-size:clamp(26px,3.2vw,40px);margin-top:18px">Paper does the work. Colour is spent, not used.</h2>
+    <div class="palgrid rv d2">
+      <div class="pal"><div class="chip" style="background:#F4F1E4"></div><b>Parchemin</b><span>F4F1E4 · ground</span></div>
+      <div class="pal"><div class="chip" style="background:#EAE3D0"></div><b>Parchemin profond</b><span>EAE3D0 · recessed</span></div>
+      <div class="pal"><div class="chip" style="background:#FBF9F0"></div><b>Crème</b><span>FBF9F0 · exhibits</span></div>
+      <div class="pal"><div class="chip" style="background:#E4DCC6"></div><b>Lin</b><span>E4DCC6 · bands</span></div>
+      <div class="pal"><div class="chip" style="background:#CFC8B4"></div><b>Filet</b><span>CFC8B4 · hairlines</span></div>
+      <div class="pal"><div class="chip" style="background:#A89E86"></div><b>Pierre</b><span>A89E86 · faint</span></div>
+      <div class="pal"><div class="chip" style="background:#8B8168"></div><b>Taupe</b><span>8B8168 · muted</span></div>
+      <div class="pal"><div class="chip" style="background:#6C644C"></div><b>Sépia</b><span>6C644C · engraving</span></div>
+      <div class="pal"><div class="chip" style="background:#3E372E"></div><b>Encre douce</b><span>3E372E · body</span></div>
+      <div class="pal"><div class="chip" style="background:#24211C"></div><b>Encre</b><span>24211C · the record</span></div>
+      <div class="pal"><div class="chip" style="background:#2A231C"></div><b>Espresso</b><span>2A231C · oak</span></div>
+      <div class="pal"><div class="chip" style="background:#1B1712"></div><b>Espresso profond</b><span>1B1712 · cellar</span></div>
+      <div class="pal"><div class="chip" style="background:#7C2D2A"></div><b>Claret</b><span>7C2D2A · the wine</span></div>
+      <div class="pal"><div class="chip" style="background:#551D1B"></div><b>Claret profond</b><span>551D1B · depth</span></div>
+      <div class="pal"><div class="chip" style="background:linear-gradient(135deg,#8A6C3C,#A8894F 55%,#C6AA72)"></div><b>Or</b><span>A8894F · rationed</span></div>
+      <div class="pal"><div class="chip" style="background:#3A7CA0"></div><b>Bleu de certificat</b><span>3A7CA0 · reserved</span></div>
+    </div>
+    <p class="rv d3" style="margin-top:26px;font-size:14px;color:var(--taupe);font-style:italic">Claret and gold are accents, never fields. The certificate blue appears only inside a keyline frame — nowhere else, ever.</p>
+  </div>
+</section>
+
+<!-- 12 · THE TYPOGRAPHY -->
+<section class="slide deep">
+  <div style="text-align:center;width:100%;max-width:940px">
+    <span class="eyebrow claret rv">The typography</span>
+    <h2 class="rv d1" style="font-size:clamp(26px,3.2vw,40px);margin-top:18px">Three voices, one page. No sans, ever.</h2>
+    <div class="type-spec rv d2">
+      <div class="type-row"><div class="use">Display · The Estate</div>
+        <div style="font-family:var(--display);font-size:34px;color:var(--ink)">Baskervville — patrician, unhurried <i>&amp; italic for feeling</i></div></div>
+      <div class="type-row"><div class="use">Body · The Record</div>
+        <div style="font-size:16px">Libre Baskerville, 16 over 1.68 — comfortable measure, never justified, never grey.</div></div>
+      <div class="type-row"><div class="use">Labels · The Law</div>
+        <div style="font-family:var(--law);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft)">COURIER PRIME · TRACKED .26em · EXHIBITS, STAMPS, FICHES, VERDICTS</div></div>
+      <div class="type-row"><div class="use">Marginalia · The Clerk</div>
+        <div style="font-family:var(--hand);font-size:27px;color:var(--claret)">Zeyada — the one voice allowed to be warm, or to doubt.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · THE DEVICES -->
+<section class="slide">
+  <div style="text-align:center;width:100%;max-width:1040px">
+    <span class="eyebrow claret rv">The devices</span>
+    <h2 class="rv d1" style="font-size:clamp(26px,3.2vw,40px);margin-top:18px">Six objects carry the whole identity.</h2>
+    <div class="devices rv d2">
+      <div class="device"><div class="frame-demo"></div><div class="lbl">The keyline frame — from the label’s own border</div></div>
+      <div class="device"><div style="font-size:16px">at <span class="redact">Saint-Émilion</span>, the</div><div class="lbl">The redaction — worn like a decoration</div></div>
+      <div class="device"><div class="stamp-demo">Déclassé</div><div class="lbl">The stamp — always leaning, always claret</div></div>
+      <div class="device"><div class="gilt">N° 2 417</div><div class="lbl">The gilt numeral — gold spent only on value</div></div>
+      <div class="device"><div class="dots"><i style="background:#7C2D2A"></i><i style="border:1px solid #CFC8B4"></i><i style="background:#A8894F"></i></div><div class="lbl">The mark — inscribed · awaiting · yours</div></div>
+      <div class="device"><div class="seal-demo">ILEX</div><div class="lbl">The seal — held, never clicked</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 · THE PLATES -->
+<section class="slide deep">
+  <div style="text-align:center;width:100%;max-width:1080px">
+    <span class="eyebrow claret rv">The illustrations</span>
+    <h2 class="rv d1" style="font-size:clamp(26px,3.2vw,40px);margin-top:18px">Nine engravings, one hand.</h2>
+    <p class="rv d2" style="color:var(--taupe);font-style:italic;margin-top:12px">Commissioned in the style of a 19th-century Bordeaux wine atlas — no icons, no photography of lavender, no stock anything.</p>
+    <div class="plates rv d3">
+      <figure class="plate"><img src="../assets/01-tree.jpg" alt=""><figcaption>The Ilex</figcaption></figure>
+      <figure class="plate"><img src="../assets/04-map.jpg" alt=""><figcaption>The map, unnamed</figcaption></figure>
+      <figure class="plate"><img src="../assets/06-apparatus.jpg" alt=""><figcaption>La Séparation</figcaption></figure>
+      <figure class="plate"><img src="../assets/07-seal.jpg" alt=""><figcaption>The seal</figcaption></figure>
+      <figure class="plate"><img src="../assets/09-cellar.jpg" alt=""><figcaption>The cellar</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 15 · HOW ILEX WRITES -->
+<section class="slide">
+  <div class="duo" style="align-items:start">
+    <div class="rv">
+      <span class="eyebrow claret">The voice</span>
+      <h3 style="margin-top:16px">How Ilex writes.</h3>
+      <ul class="rules-list" style="margin-top:20px">
+        <li><b>It states facts and lets scarcity speak.</b>Short, declarative, often fragmentary. It sells by restraint.</li>
+        <li><b>Sentence case, even for headlines.</b>Small-caps tracked labels do the shouting, quietly.</li>
+        <li><b>French where it earns it.</b>Cépage, élevage, greffier — never sprinkled, always structural.</li>
+        <li><b>Never an exclamation mark. Never an emoji.</b>The maison has nothing to be excited about; it has things to record.</li>
+        <li><b>Numbers are the heroes.</b>6 600 · 0,5 % · 100 % · 2023 — spare, meaningful, never invented.</li>
+      </ul>
+    </div>
+    <div class="rv d1">
+      <span class="eyebrow claret">The signature lines</span>
+      <ul class="sig-lines" style="margin-top:20px">
+        <li>Everything else falls away.</li>
+        <li>The alcohol departs. Its <em>spirit</em> remains.</li>
+        <li>The wine, however, is under no such obligation.</li>
+        <li>Moments, not volume.</li>
+        <li>Not an alternative, but an equal.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · THE MOTION DOCTRINE -->
+<section class="slide dark">
+  <div class="body-max">
+    <span class="eyebrow rv">The motion doctrine</span>
+    <h2 class="rv d1" style="font-size:clamp(28px,3.6vw,44px);margin-top:20px;color:var(--parchment-deep)">The pace of pouring, not clicking.</h2>
+    <p class="rv d2">Nothing bounces; everything decelerates and settles, like paper coming to rest. Key scenes pin and let the visitor’s scroll drive the film. Reveals take their time — up to 1200 ms on a long, asymmetric curve.</p>
+    <p class="rv d3" style="font-family:var(--law);font-size:12px;letter-spacing:.2em;color:rgba(234,227,208,.55);margin-top:26px">EASE — CUBIC-BEZIER(.16, 1, .3, 1) · REVEALS ≤ 1200MS · FIVE PLANES OF DEPTH, MAXIMUM</p>
+    <p class="hand rv d4" style="margin-top:26px">if it would look hurried in a cellar, it is too fast.</p>
+  </div>
+</section>
+
+<!-- 13 · PART IV -->
+<section class="slide part dark">
+  <img class="bg bgimg" src="../assets/07-seal.jpg" alt="" style="right:8%;top:50%;transform:translateY(-50%);height:56vh;opacity:.12">
+  <div class="rv" style="text-align:center">
+    <div class="no">IV</div>
+    <h2>The Subtle Decisions</h2>
+    <p class="kicker" style="margin-top:16px;color:rgba(234,227,208,.55)">Luxury is a hundred small refusals.</p>
+  </div>
+</section>
+
+<!-- 14 · DECISIONS: RESTRAINT -->
+<section class="slide">
+  <div class="ledger rv">
+    <h2>What we refused to do</h2>
+    <p class="sub kicker">The experience begins by taking things away.</p>
+    <div class="decision"><div class="what">The menu does not exist until you leave.</div>
+      <div class="why">No navigation on arrival — none summonable. It appears only when you scroll <i>up</i>, away from the experience. Immersion is the default; the menu is the exit.</div></div>
+    <div class="decision"><div class="what">Nothing moves twice.</div>
+      <div class="why">The arrival is a single orchestrated sequence — clouds, then the oak, then I·L·E·X letter by letter, vines, thesis, crest. After that, stillness. Nothing bounces. Everything settles.</div></div>
+    <div class="decision"><div class="what">One whisper of a scroll cue.</div>
+      <div class="why">A single hairline chevron, arriving last, drifting a few pixels. Quiet enough to miss if you are not looking — which is the correct volume.</div></div>
+    <div class="decision"><div class="what">Gold is rationed.</div>
+      <div class="why">Foil appears on numbers, seals, and final words only. Scarcity applies to the design system too.</div></div>
+  </div>
+</section>
+
+<!-- 15 · DECISIONS: THE REDACTION SYSTEM -->
+<section class="slide deep">
+  <div class="ledger rv">
+    <h2>The censor’s ink, everywhere</h2>
+    <p class="sub kicker">Redaction is not a gag — it is the design system.</p>
+    <div class="decision"><div class="what">The record types itself.</div>
+      <div class="why">The dossier text arrives word by word, at a clerk’s cadence — and the black bars wipe across <i>as the words are written</i>, the censoring happening inside the act of writing.</div></div>
+    <div class="decision"><div class="what">Hold a bar and it resists, then confesses.</div>
+      <div class="why">Press a redaction: nothing. Hold it: the ink thins and the forbidden word appears in claret — then closes again when you let go.</div></div>
+    <div class="decision"><div class="what">Highlight anything — you redact it.</div>
+      <div class="why">Select any text on the site with your cursor and the selection renders as censor’s ink. <i>Try it on this sentence.</i> The reader becomes the censor.</div></div>
+    <div class="decision"><div class="what">Even “Vin de France” is refused.</div>
+      <div class="why">At 0,5 % the wine is denied the lowest rung of the ladder. The status line reads <b style="font-family:var(--law);font-size:12px;letter-spacing:.1em;color:var(--claret)">DÉCLASSÉ — SANS APPELLATION</b> — a deeper exile than we first wrote, and truer.</div></div>
+  </div>
+</section>
+
+<!-- 16 · DECISIONS: NUMBERS BEHAVE LIKE OBJECTS -->
+<section class="slide">
+  <div class="ledger rv">
+    <h2>Numbers behave like objects</h2>
+    <p class="sub kicker">Every figure on the site has weight, provenance, and a clock.</p>
+    <div class="decision"><div class="what">The count arrives like a tally.</div>
+      <div class="why">6 140 does not simply appear. It counts up fast, then decelerates until the last bottles arrive one by one — …6 137, 6 138, 6 139 — like a ledger being totted by hand.</div></div>
+    <div class="decision"><div class="what">Every bottle ignites on its own clock.</div>
+      <div class="why">The register’s 6,600 marks do not wipe in as a wave. Each dot pops in on its own scattered timing over three seconds — a field of individual bottles, not a graphic.</div></div>
+    <div class="decision"><div class="what">The percentage takes its leave.</div>
+      <div class="why">In La Séparation, 14,2 % drains to 0,5 % under your scroll — then the number itself scrolls up and out of the frame, leaving the dark, the bubbles, and one sentence.</div></div>
+    <div class="decision"><div class="what">The seal is held, not clicked.</div>
+      <div class="why">There is no add-to-cart. You press the wax seal and hold it — a full second, a ring of gold closing — <i>as one holds wax</i>. Commitment is given duration.</div></div>
+  </div>
+</section>
+
+<!-- 17 · PART V -->
+<section class="slide part deep">
+  <img class="bg bgimg" src="../assets/09-cellar.jpg" alt="" style="left:50%;bottom:0;transform:translateX(-50%);width:100%;opacity:.12">
+  <div class="rv" style="text-align:center">
+    <div class="no">V</div>
+    <h2>The Experience</h2>
+    <p class="kicker" style="margin-top:16px">Section by section.</p>
+  </div>
+</section>
+
+<!-- 18 · ARRIVAL -->
+<section class="slide">
+  <div class="walk">
+    <div class="visual rv"><img src="../assets/01-tree.jpg" alt="" style="height:62vh;opacity:.85"></div>
+    <div class="rv d1">
+      <span class="tag">01 · The Arrival</span>
+      <h3>A label that breathes.</h3>
+      <p class="what">The engraved world assembles itself in sequence — sky, oak, wordmark, vines — composed exactly like the bottle’s label, at architectural scale.</p>
+      <ul>
+        <li><b>The thesis is the greeting.</b> No “welcome”, no tagline — the legal provocation, immediately.</li>
+        <li><b>Two doors:</b> apply for the allocation, or read the dossier.</li>
+        <li><b>DÉCLASSÉ</b> stamped where a heritage crest would boast.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 · LE DOSSIER -->
+<section class="slide deep">
+  <div class="walk">
+    <div class="rv">
+      <span class="tag">02 · Le Dossier</span>
+      <h3>The case, typed over a drifting map.</h3>
+      <p class="what">The scene pins. Behind everything, the wordless map of the right bank drifts imperceptibly — a 110-second survey. The record types itself, redactions inking in as it writes; then the prose slides aside and Exhibit A presents the law itself.</p>
+      <ul>
+        <li><b>The map has no names.</b> Its cartouche is empty, by order. The reader is trusted to know the river.</li>
+        <li><b>Evidence, not marketing.</b> Parcel, soil, barrel, cellar — documented with notarial extravagance.</li>
+      </ul>
+    </div>
+    <div class="visual rv d1"><img src="../assets/04-map.jpg" alt="" style="width:100%;border:1px solid var(--hair);padding:8px;background:var(--cream)"></div>
+  </div>
+</section>
+
+<!-- 20 · LA SÉPARATION -->
+<section class="slide dark">
+  <img class="bg" src="../assets/06-apparatus.jpg" alt="" style="left:50%;top:50%;transform:translate(-50%,-50%);width:min(640px,74vw);opacity:.12">
+  <div class="walk" style="grid-template-columns:1fr;max-width:760px;text-align:center">
+    <div class="rv">
+      <span class="tag">03 · La Séparation</span>
+      <h3 style="color:var(--parchment-deep)">The dark chapter. The night of 7 November.</h3>
+      <p class="what">Your scroll drains the number — 14,2 % to 0,5 % — while bubbles rise across the full screen, in front of and behind the ghosted still. Then the number departs the frame, and two lines arrive alone:</p>
+      <p class="big-line" style="margin:26px auto 0;font-size:clamp(24px,3vw,38px)">The alcohol departs.<br>Its <em>spirit</em> remains.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 · LE REGISTRE -->
+<section class="slide">
+  <div class="walk">
+    <div class="visual rv" style="flex-direction:column;gap:8px">
+      <div style="font-family:var(--display);font-size:72px;color:var(--gold);line-height:1">6 140</div>
+      <div style="font-family:var(--law);font-size:9.5px;letter-spacing:.3em;color:var(--sepia);text-transform:uppercase">await their keepers</div>
+      <div id="miniField" style="margin-top:20px;width:min(420px,80vw);height:130px"></div>
+    </div>
+    <div class="rv d1">
+      <span class="tag">04 · Le Registre</span>
+      <h3>Scarcity you can count.</h3>
+      <p class="what">The page becomes a full-screen field of 6,600 marks — one per bottle, each igniting on its own clock. Hover any dot: its number, its status. Click a free one: it becomes yours to claim. The Acte d’Inscription rises over the field as the only door to purchase.</p>
+      <ul>
+        <li><b>Public and permanent.</b> Every keeper inscribed by initials and city, forever.</li>
+        <li><b>The inaugural allocation.</b> Nothing has ever been sold before; 400 bottles rest with the chai.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 22 · LA SOCIÉTÉ + THE SHOP -->
+<section class="slide dark">
+  <img class="bg" src="../assets/07-seal.jpg" alt="" style="left:8%;top:50%;transform:translateY(-50%);height:52vh;opacity:.12">
+  <div class="walk">
+    <div class="rv">
+      <span class="tag">05 · La Société des Déclassés</span>
+      <h3 style="color:var(--parchment-deep)">The exiled keep excellent company.</h3>
+      <p class="what">Membership by petition. First rights to every allocation; the proclamation each November on the anniversary of the Séparation; one dinner a year in a cellar whose address is never printed.</p>
+      <ul>
+        <li><b>Founded MMXXV</b> — the year the name was taken. Honest heritage: the tree is ancient, the society is new, and says so in Latin numerals.</li>
+        <li><b>The shop whispers.</b> One quiet line — <i style="color:rgba(234,227,208,.8)">papers, wax, and other permanent things</i> — no product grid shouting over the wine.</li>
+      </ul>
+    </div>
+    <div class="visual rv d1"><img src="../assets/07-seal.jpg" alt="" style="height:44vh"></div>
+  </div>
+</section>
+
+<!-- 23 · THE PDP -->
+<section class="slide">
+  <div class="walk">
+    <div class="visual rv"><img src="../assets/bottle.png" alt="" style="height:56vh;mix-blend-mode:normal;filter:drop-shadow(0 18px 22px rgba(36,33,28,.28))"></div>
+    <div class="rv d1">
+      <span class="tag">06 · The Claim — the product page</span>
+      <h3>A ritual, not a checkout.</h3>
+      <p class="what">The bottle stands alone in the space — no box, no thumbnails, a real shadow grounding it, the guardian oak ghosted behind. Beside it, the act:</p>
+      <ul>
+        <li><b>Choose your number.</b> It is yours alone, forever — or <i style="font-family:var(--hand);font-size:18px;color:var(--claret)">le greffier chooses…</i></li>
+        <li><b>Press and hold the seal.</b> The gold ring closes; the claim is held twenty minutes in your name.</li>
+        <li><b>The evidence follows:</b> procès-verbal de dégustation, fiche technique, livraison — all in the Law’s voice.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 24 · WHY IT MATTERS -->
+<section class="slide deep">
+  <div class="body-max">
+    <span class="eyebrow claret rv">Why the experience is the strategy</span>
+    <h2 class="rv d1" style="font-size:clamp(28px,3.6vw,44px);margin-top:20px">The site does not describe the brand.<br>It is the brand.</h2>
+    <p class="rv d2">Every mechanic doubles as marketing: the register makes scarcity verifiable instead of claimed; the redactions make the legal wound into the signature; the seal makes buying feel like joining; and “the wine that cannot say where it is from” writes every headline for us.</p>
+    <p class="rv d3">Luxury here is never asserted — no “premium”, no “exclusive”, no “crafted”. It is enacted: in restraint, in duration, in a hundred small refusals. That is what makes a maison born this year feel three hundred years old.</p>
+  </div>
+</section>
+
+<!-- 25 · CLOSE -->
+<section class="slide dark">
+  <img class="bg" src="../assets/01-tree.jpg" alt="" style="left:50%;top:50%;transform:translate(-50%,-52%);height:86vh;opacity:.12">
+  <div style="text-align:center">
+    <div class="rv" style="font-family:var(--display);font-size:clamp(54px,8vw,110px);letter-spacing:.24em;text-indent:.24em;color:var(--parchment-deep)">ILEX</div>
+    <hr class="goldrule rv d1">
+    <p class="hand rv d2" style="font-size:30px">— everything else falls away.</p>
+    <p class="rv d3" style="margin-top:44px;font-family:var(--law);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(234,227,208,.5)">the living experience &nbsp;·&nbsp; aroutewest.github.io/ilex-preview</p>
+  </div>
+</section>
+
+<div class="folio" id="folio">01 / 25</div>
+<div class="hint">scroll, or use your arrows —</div>
+
+<script>
+(function(){
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var folio = document.getElementById('folio');
+  var pad = function(n){ return (n<10?'0':'')+n; };
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if (e.isIntersecting){
+        e.target.classList.add('now');
+        folio.textContent = pad(slides.indexOf(e.target)+1) + ' / ' + pad(slides.length);
+      }
+    });
+  }, {threshold:.55});
+  slides.forEach(function(s){ io.observe(s); });
+  /* scroll fallback for throttled contexts */
+  function markByScroll(){
+    var i = Math.round(scrollY/innerHeight);
+    var s = slides[Math.max(0,Math.min(slides.length-1,i))];
+    if (s && !s.classList.contains('now')){
+      s.classList.add('now');
+      folio.textContent = pad(slides.indexOf(s)+1) + ' / ' + pad(slides.length);
+    }
+  }
+  addEventListener('scroll', markByScroll, {passive:true}); markByScroll();
+  addEventListener('keydown', function(e){
+    var i = Math.round(scrollY/innerHeight);
+    if (e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){ e.preventDefault();
+      slides[Math.min(slides.length-1,i+1)].scrollIntoView({behavior:'smooth'}); }
+    if (e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault();
+      slides[Math.max(0,i-1)].scrollIntoView({behavior:'smooth'}); }
+  });
+  /* mini register field on slide 21 */
+  var mini = document.getElementById('miniField');
+  if (mini){
+    var c = document.createElement('canvas');
+    mini.appendChild(c);
+    var x = c.getContext('2d');
+    var draw = function(){
+      var w = mini.clientWidth, h = mini.clientHeight;
+      var dpr = Math.min(devicePixelRatio||1,2);
+      c.width = w*dpr; c.height = h*dpr; c.style.width=w+'px'; c.style.height=h+'px';
+      x.setTransform(dpr,0,0,dpr,0,0);
+      var cols=60, rows=14, cell=Math.min(w/cols,h/rows);
+      var seed=7;
+      var rnd=function(){ seed=(seed*16807)%2147483647; return seed/2147483647; };
+      for (var i=0;i<cols*rows;i++){
+        var col=i%cols,row=(i/cols)|0;
+        var cx=col*cell+cell/2, cy=row*cell+cell/2, res=(row<2)||(rnd()<.02);
+        if (res){ x.globalAlpha=.9; x.fillStyle='#7C2D2A';
+          x.beginPath(); x.arc(cx,cy,cell*.26,0,6.2832); x.fill(); }
+        else { x.globalAlpha=.35; x.strokeStyle='rgba(36,33,28,.5)'; x.lineWidth=.6;
+          x.beginPath(); x.arc(cx,cy,cell*.26,0,6.2832); x.stroke(); }
+      }
+      x.globalAlpha=1;
+    };
+    draw(); addEventListener('resize', draw);
+  }
+})();
+</script>
+</body>
+</html>
