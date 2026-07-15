@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilex &middot; Le vin &middot; Toujours vert</title>
+<meta name="description" content="Ilex 2023. 100% Merlot of a classified right-bank estate, gently freed of its alcohol. Choose your leaf in the crown of six thousand six hundred.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/seal-200.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Baskervville+SC&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Zeyada&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ILEX -- Toujours vert -- product detail page
+   Tokens: crown green world. Claret marks the wine only.
+   ============================================================ */
+:root{
+  --chalk-cold:#FBFAF4; --chalk:#EFEAD9; --crown:#1F2C1E; --lichen:#9AA48A;
+  --acorn:#8A6A45; --ink:#24211C; --claret:#7C2D2A; --gold:#C6AA72; --gold-deep:#A8894F;
+  --hairline:#CFC8B4; --hairline-soft:#DED8C6;
+  --ease-luxe:cubic-bezier(.16,1,.3,1);
+  --dur-reveal:1050ms;
+  --nav-h:64px;
+  --serif:'Baskervville',Baskerville,'Times New Roman',serif;
+  --body:'Libre Baskerville',Baskerville,Georgia,serif;
+  --sc:'Baskervville SC','Baskervville',Baskerville,serif;
+  --mono:'Courier Prime','Courier New',Courier,monospace;
+  --hand:'Zeyada',cursive;
+  color-scheme:only light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--chalk-cold);color:var(--ink);font-family:var(--body);
+  font-size:16.5px;line-height:1.68;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--crown);color:var(--chalk)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);line-height:1.14}
+em{font-style:italic}
+.num{font-variant-numeric:tabular-nums lining-nums}
+
+/* inset keyline frame */
+.frame{position:fixed;inset:10px;border:1px solid var(--hairline);pointer-events:none;z-index:70}
+
+.dia{display:inline-block;width:7px;height:7px;background:var(--ink);transform:rotate(45deg);
+  margin:0 12px;vertical-align:middle}
+
+/* reveals */
+.rv{opacity:.001;transform:translateY(24px);
+  transition:opacity var(--dur-reveal) var(--ease-luxe),transform var(--dur-reveal) var(--ease-luxe)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}
+
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--lichen)}
+.goldrule{width:44px;height:1px;background:var(--gold-deep);border:none}
+
+/* buttons */
+.btn{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+  text-transform:uppercase;padding:1.1em 2.1em 1em;border:1px solid var(--crown);
+  color:var(--crown);transition:background .4s var(--ease-luxe),color .4s var(--ease-luxe),border-color .4s var(--ease-luxe);
+  text-align:center;background:transparent}
+.btn:hover,.btn:focus-visible{background:var(--crown);color:var(--chalk);border-color:var(--crown)}
+
+/* ============ announcement + nav ============ */
+.chrome{position:fixed;top:0;left:0;right:0;z-index:80}
+.annonce{background:var(--crown);color:var(--chalk);text-align:center;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  padding:9px 16px 7px}
+.annonce b{color:var(--gold);font-weight:400}
+.nav{height:var(--nav-h);display:flex;align-items:center;
+  background:rgba(251,250,244,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--hairline)}
+.nav-inner{max-width:1320px;margin:0 auto;padding:0 4vw;width:100%;display:flex;align-items:center;gap:34px}
+.nav .wordmark{font-family:var(--serif);font-size:23px;letter-spacing:.24em;text-indent:.24em;color:var(--ink)}
+.nav-links{display:flex;gap:26px;flex:1;justify-content:center}
+.nav-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--lichen);transition:color .3s;padding:6px 0}
+.nav-links a:hover{color:var(--crown)}
+.nav-util{display:flex;align-items:center;gap:22px}
+.nav-util .panier{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--lichen)}
+.nav-util .btn{padding:.8em 1.4em .7em;font-size:10px}
+.nav-util .btn.here{background:var(--crown);color:var(--chalk)}
+@media(max-width:980px){.nav-links{display:none}}
+
+/* ============ crumbs ============ */
+.crumbs{max-width:1300px;margin:0 auto;padding:calc(var(--nav-h) + 46px) 5vw 0;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--lichen)}
+.crumbs a:hover{color:var(--crown)}
+
+/* ============ PDP grid ============ */
+.pdp{max-width:1300px;margin:0 auto;padding:22px 5vw 90px;display:grid;
+  grid-template-columns:.86fr 1.14fr;gap:56px;align-items:start}
+@media(max-width:900px){.pdp{grid-template-columns:1fr;gap:36px}}
+
+/* ---- stage / gallery ---- */
+.stage-bottle{position:sticky;top:calc(var(--nav-h) + 22px);display:flex;flex-direction:column;
+  align-items:center}
+.stage-frame{position:relative;width:100%;display:flex;align-items:flex-end;justify-content:center;
+  min-height:640px;padding-bottom:64px}
+.stage-bottle .ghost-plate{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  height:112%;opacity:.08;mix-blend-mode:multiply;pointer-events:none}
+.stage-bottle .bottle-wrap{position:relative}
+.stage-bottle .bottle{position:relative;z-index:2;height:min(78vh,720px);width:auto;
+  filter:drop-shadow(0 18px 22px rgba(31,44,30,.26))}
+.stage-bottle .plate-fill{position:relative;z-index:2;height:min(74vh,680px);width:auto;
+  mix-blend-mode:multiply}
+.stage-bottle .photo-card{position:relative;z-index:2;border:1px solid var(--hairline);
+  background:#FFFFFF;padding:18px;display:block;height:min(74vh,680px);width:auto}
+.stage-bottle .floor{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);
+  width:150%;height:42px;z-index:1;filter:blur(3px);
+  background:radial-gradient(50% 50% at 50% 50%,rgba(31,44,30,.28),rgba(31,44,30,0) 68%)}
+.stage-bottle .floor.off{display:none}
+.stage-bottle figcaption{margin-top:6px;font-family:var(--hand);font-size:22px;color:var(--acorn);
+  text-align:center}
+.thumbs{display:flex;gap:12px;justify-content:center;margin-top:6px}
+.thumbs button{width:64px;height:78px;border:1px solid var(--hairline);background:var(--chalk-cold);
+  display:flex;align-items:center;justify-content:center;padding:7px;transition:border-color .3s}
+.thumbs button:hover{border-color:var(--acorn)}
+.thumbs button.on{border-color:var(--crown)}
+.thumbs button img{max-height:100%;max-width:100%;object-fit:contain;mix-blend-mode:multiply}
+.thumbs button.tbottle img{mix-blend-mode:normal}
+
+/* ---- buy column ---- */
+.buy{position:relative}
+.buy .eyebrow{display:block}
+.buy h1{font-size:clamp(38px,4.2vw,52px);letter-spacing:.14em;text-indent:.14em;margin:10px 0 2px;position:relative;z-index:1}
+.buy .vintage-ghost{position:absolute;left:-18px;top:16px;width:150px;height:150px;opacity:.07;
+  mix-blend-mode:multiply;pointer-events:none;z-index:0}
+.buy .vintage{font-family:var(--serif);font-size:24px;color:var(--ink);position:relative;z-index:1}
+.buy .vintage b{color:var(--claret);font-weight:400}
+.buy .origin{margin:14px 0 4px;font-size:15.5px;max-width:40ch}
+.buy .price{font-family:var(--serif);font-size:27px;color:var(--claret);margin:16px 0 2px}
+.buy .price small{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--lichen);margin-left:12px}
+.alloc-chip{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--acorn);border:1px solid var(--acorn);border-radius:999px;
+  padding:.5em 1em .4em;margin-top:10px}
+
+.numbers{margin-top:22px}
+.numbers .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--lichen);margin-bottom:14px;display:block}
+.formats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.formats button{border:1px solid var(--hairline);background:var(--chalk-cold);padding:13px 16px 11px;
+  text-align:left;transition:border-color .25s,background .25s}
+.formats button .fq{font-family:var(--serif);font-size:20px;color:var(--ink);display:block}
+.formats button .fp{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lichen);display:block;margin-top:6px}
+.formats button:hover{border-color:var(--crown)}
+.formats button.on{border-color:var(--crown);background:var(--crown)}
+.formats button.on .fq{color:var(--chalk)}
+.formats button.on .fp{color:rgba(239,234,217,.72)}
+
+.numchips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.numchips button{width:100%;font-family:var(--serif);font-size:15px;font-variant-numeric:tabular-nums;
+  border:1px solid var(--hairline);padding:.5em .5em .4em;background:var(--chalk-cold);
+  transition:border-color .25s,color .25s,background .25s}
+.numchips button:hover{border-color:var(--crown);color:var(--crown)}
+.numchips button.on{background:var(--crown);border-color:var(--crown);color:var(--chalk)}
+.numchips button.clerk{font-family:var(--hand);font-size:19px;color:var(--acorn)}
+.numchips button.clerk.on{color:var(--chalk)}
+
+/* ---- press-and-hold seal ---- */
+.sealrow{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;margin-top:26px;
+  border:1px solid var(--hairline);background:var(--chalk);padding:22px 26px;position:relative}
+.sealrow::after{content:"";position:absolute;inset:8px;border:1px solid rgba(154,164,138,.4);pointer-events:none}
+@media(max-width:520px){.sealrow{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.seal-btn{position:relative;width:118px;height:118px;border-radius:50%;user-select:none;
+  -webkit-user-select:none;touch-action:none;display:grid;place-items:center;z-index:2}
+.seal-btn .ring{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(var(--gold) calc(var(--deg)*1deg),rgba(31,44,30,.12) 0)}
+.seal-btn .face{position:absolute;inset:5px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#2E4029,var(--crown) 58%,#141d13 100%);
+  box-shadow:inset 0 3px 8px rgba(255,255,255,.14),inset 0 -6px 14px rgba(0,0,0,.42),
+    0 12px 26px -12px rgba(20,29,19,.7);
+  display:grid;place-items:center;color:var(--gold);transition:transform .18s}
+.seal-btn:active .face{transform:scale(.96)}
+.seal-btn .face span{font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-indent:.24em;text-transform:uppercase}
+.seal-btn.sealed .face{animation:sealthunk .5s cubic-bezier(.6,0,.3,1.3)}
+@keyframes sealthunk{0%{transform:scale(1.5);filter:brightness(1.3)}70%{transform:scale(.93)}100%{transform:scale(1)}}
+.sealrow .txt .t1{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--crown);margin-bottom:8px}
+.sealrow .txt .t2{font-size:14.5px;color:#4c463a}
+.sealrow .txt .hand{display:block;margin-top:10px;font-size:20px;font-family:var(--hand);color:var(--acorn)}
+.sealrow .done{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--crown);
+  margin-top:12px;opacity:0;transition:opacity .8s var(--ease-luxe)}
+.sealrow .done.on{opacity:1}
+.sealrow .done .g{color:var(--claret)}
+.sealrow .done .hand{display:inline;margin:0;font-size:19px;color:var(--acorn)}
+
+/* ---- exhibits (herbarium sheets) ---- */
+.pdp-notes{margin-top:54px;display:flex;flex-direction:column;gap:26px}
+.exhibit{background:var(--chalk-cold);border:1px solid var(--hairline);padding:32px 32px 26px;
+  position:relative;font-family:var(--mono);font-size:12.5px;line-height:1.85;letter-spacing:.02em;
+  color:#4c463a}
+.exhibit::after{content:"";position:absolute;inset:9px;border:1px solid rgba(154,164,138,.35);pointer-events:none}
+.exhibit.herb{background:
+  linear-gradient(rgba(251,250,244,.9),rgba(251,250,244,.9)),
+  url("assets/sprig.jpg");
+  background-size:cover;background-position:right -40px top -30px;background-repeat:no-repeat}
+.exhibit .tag{position:absolute;top:-11px;left:24px;background:var(--chalk-cold);padding:2px 12px;
+  border:1px solid var(--hairline);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--acorn)}
+.exhibit p{margin-bottom:1em}
+.exhibit p:last-child{margin:0}
+.exhibit .sig{font-family:var(--hand);font-size:23px;color:var(--acorn);letter-spacing:0;text-transform:none}
+.exhibit table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12.5px}
+.exhibit td{padding:7px 0;border-bottom:1px solid var(--hairline-soft);vertical-align:top}
+.exhibit td:first-child{color:var(--lichen);letter-spacing:.12em;text-transform:uppercase;
+  font-size:10.5px;width:44%;padding-right:14px}
+.exhibit .plain{font-family:var(--body);font-size:15px;letter-spacing:0;text-transform:none;line-height:1.7}
+.exhibit .fiche-ghost{position:absolute;right:18px;top:50%;transform:translateY(-50%);height:78%;
+  max-height:220px;width:auto;opacity:.1;mix-blend-mode:multiply;pointer-events:none}
+@media(max-width:900px){.exhibit .fiche-ghost{display:none}}
+
+/* ============ mini couronne strip ============ */
+.crownstrip{max-width:1200px;margin:0 auto 110px;padding:0 5vw}
+.crownstrip .inner{border:1px solid var(--hairline);background:var(--chalk);padding:34px 40px;
+  display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+@media(max-width:760px){.crownstrip .inner{grid-template-columns:1fr}}
+.crownstrip .lbl-line{margin-top:10px;font-size:15px;color:#4c463a;max-width:52ch}
+.crownstrip .strip-wrap{position:relative;margin-top:18px}
+.crownstrip .strip-ground{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:.08;pointer-events:none}
+.crownstrip canvas{position:relative;width:100%;height:120px;display:block}
+.crownstrip .counts{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--lichen);margin-top:14px}
+.crownstrip .counts b{font-family:var(--serif);font-size:16px;color:var(--crown);font-weight:400;letter-spacing:0}
+.crownstrip .counts .g{color:var(--gold-deep)}
+
+/* ============ cross-sell ============ */
+.crosssell{max-width:1200px;margin:0 auto;padding:0 5vw 120px}
+.lockup{text-align:center;margin-bottom:60px}
+.lockup .goldrule{margin:18px auto}
+.lockup h2{font-size:clamp(28px,3.6vw,42px)}
+.lockup p{max-width:44ch;margin:14px auto 0;font-size:15.5px;color:#4c463a}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.cards{grid-template-columns:1fr}}
+.pcard{background:var(--chalk-cold);border:1px solid var(--hairline);display:flex;flex-direction:column;
+  transition:transform .4s var(--ease-luxe),box-shadow .4s var(--ease-luxe)}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 22px 44px -26px rgba(31,44,30,.4)}
+.pcard .ph{height:180px;overflow:hidden;display:block;
+  border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline-soft);background:var(--chalk-cold)}
+.pcard .ph img{width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply}
+.pcard .info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pcard .name{font-family:var(--serif);font-size:19px;color:var(--ink)}
+.pcard .meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto;padding-top:10px}
+.pcard .price{font-family:var(--body);font-size:15px;color:var(--ink)}
+.pcard .st{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--lichen)}
+
+/* ============ footer ============ */
+.footer{background:var(--crown);color:rgba(239,234,217,.78);font-size:14px}
+.footer-grid{max-width:1200px;margin:0 auto;padding:90px 5vw 40px;display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:44px}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.footer-grid{grid-template-columns:1fr}}
+.footer .wordmark{font-family:var(--serif);font-size:26px;letter-spacing:.24em;color:var(--chalk)}
+.footer .crest-f{height:64px;margin:20px 0 0;filter:invert(1);opacity:.8;mix-blend-mode:screen}
+.footer h4{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--gold);font-weight:400;margin-bottom:18px}
+.footer ul{list-style:none}
+.footer li{margin-bottom:10px}
+.footer a:hover{color:var(--gold)}
+.footer .corr p{margin-bottom:20px;font-size:13.5px}
+.corr-form{display:flex;align-items:flex-end;gap:16px;border-bottom:1px solid rgba(198,170,114,.4);padding-bottom:8px}
+.corr-form input{flex:1;min-width:0;background:none;border:none;color:var(--chalk);
+  font-family:var(--body);font-style:italic;font-size:14px;padding:6px 2px;outline:none}
+.corr-form input::placeholder{color:rgba(239,234,217,.45)}
+.corr-form button{flex-shrink:0;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gold);padding:6px 0 6px 8px}
+.corr-form button:hover{color:var(--chalk)}
+.footer .sign{font-family:var(--hand);font-size:24px;color:var(--gold)}
+.footer-legal{border-top:1px solid rgba(239,234,217,.12);padding:26px 5vw 34px;text-align:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(239,234,217,.42)}
+.footer-legal b{color:rgba(239,234,217,.62);font-weight:400}
+.footer .locked{font-family:var(--serif);letter-spacing:.06em;color:var(--gold);font-size:14px;
+  margin-top:2vh;text-transform:none}
+
+@media(max-width:560px){
+  .numchips{grid-template-columns:repeat(3,1fr)}
+  .stage-bottle .bottle{height:min(56vh,440px)}
+  .thumbs{gap:8px}
+  .thumbs button{width:56px;height:68px;padding:5px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .seal-btn.sealed .face{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="frame"></div>
+
+<div class="chrome" id="chrome">
+  <div class="annonce">The inaugural allocation of 6,600 numbered bottles is open. &middot; <b>choose your leaf in the crown</b></div>
+  <nav class="nav" aria-label="Principal">
+    <div class="nav-inner">
+      <a class="wordmark" href="index.html">ILEX</a>
+      <div class="nav-links">
+        <a href="index.html#siecles">Les si&egrave;cles</a>
+        <a href="index.html#couronne">La couronne</a>
+        <a href="index.html#greffe">Le greffe</a>
+        <a href="index.html#correspondance">Correspondance</a>
+      </div>
+      <div class="nav-util">
+        <a class="panier" id="panier" href="#">Panier (0)</a>
+        <a class="btn here" href="pdp.html">Le vin</a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="crumbs"><a href="index.html">La maison</a> &nbsp;/&nbsp; <a href="index.html#couronne">La couronne</a> &nbsp;/&nbsp; L&rsquo;allocation inaugurale</div>
+
+<main class="pdp">
+  <!-- ============ STAGE / GALLERY ============ -->
+  <section class="stage-bottle" aria-label="La bouteille">
+    <div class="stage-frame">
+      <img class="ghost-plate" id="ghostPlate" src="assets/tree.jpg" alt="" aria-hidden="true">
+      <figure class="bottle-wrap" style="margin:0">
+        <img class="photo-card" id="stageImg" src="assets/bottle-clean.jpg" alt="Ilex 2023, the bottle">
+        <i class="floor off" aria-hidden="true"></i>
+      </figure>
+    </div>
+    <figcaption id="stageCap">one leaf of six thousand six hundred.</figcaption>
+    <div class="thumbs" role="group" aria-label="Views">
+      <button class="tbottle on" data-view="clean" aria-label="The bottle"><img src="assets/bottle-clean.jpg" alt=""></button>
+      <button class="tbottle" data-view="bottle" aria-label="The bottle, studio cutout"><img src="assets/bottle.png" alt=""></button>
+      <button class="tbottle" data-view="alt" aria-label="The bottle, second view"><img src="assets/bottle-alt.png" alt=""></button>
+      <button data-view="sprig" aria-label="The herbarium sheet"><img src="assets/herbier.jpg" alt=""></button>
+      <button data-view="cellar" aria-label="The cellar"><img src="assets/cellar.jpg" alt=""></button>
+    </div>
+  </section>
+
+  <!-- ============ BUY ============ -->
+  <section class="buy">
+    <span class="eyebrow rv">D&eacute;class&eacute; &mdash; Sans Appellation &middot; 0,5 % vol.</span>
+    <h1 class="rv">Ilex</h1>
+    <img class="vintage-ghost" src="assets/cernes.jpg" alt="" aria-hidden="true">
+    <div class="vintage rv num">2023 &middot; the inaugural allocation &middot; <b id="pdpChosen">feuille n&ordm; 2&thinsp;417</b></div>
+    <p class="origin rv">100 % Merlot, grown on the limestone of the right bank in the shade of a holm oak centuries older than the appellation. The label carries no name of origin; we answer to the tree.</p>
+    <div class="price rv"><span id="priceMain">39 &euro;</span> <small id="priceNote">per bottle &middot; en primeur</small></div>
+    <span class="alloc-chip rv">L&rsquo;allocation inaugurale &middot; 6,600 bottles</span>
+
+    <div class="numbers rv">
+      <span class="lbl">Your allocation</span>
+      <div class="formats">
+        <button class="on" data-q="3"><span class="fq">Three bottles</span><span class="fp">117 &euro; &middot; the minimum</span></button>
+        <button data-q="6"><span class="fq">A case of six</span><span class="fp">234 &euro; &middot; in a wooden case</span></button>
+      </div>
+    </div>
+
+    <div class="numbers rv">
+      <span class="lbl">Your leaf in the crown &middot; le greffier numbers the rest in sequence</span>
+      <div class="numchips">
+        <button data-n="2417" class="on">n&ordm; 2&thinsp;417</button>
+        <button data-n="2531">n&ordm; 2&thinsp;531</button>
+        <button data-n="2688">n&ordm; 2&thinsp;688</button>
+        <button data-n="2904">n&ordm; 2&thinsp;904</button>
+        <button data-n="3122">n&ordm; 3&thinsp;122</button>
+        <button data-n="3305">n&ordm; 3&thinsp;305</button>
+        <button data-n="4380">n&ordm; 4&thinsp;380</button>
+        <button data-n="clerk" class="clerk">le greffier chooses&hellip;</button>
+      </div>
+    </div>
+
+    <div class="sealrow rv">
+      <button class="seal-btn" id="sealBtn" style="--deg:0" aria-label="Press and hold to seal your claim">
+        <span class="ring"></span>
+        <span class="face"><span>Greffer</span></span>
+      </button>
+      <div class="txt">
+        <div class="t1">Press and hold to seal your claim</div>
+        <div class="t2">Hold the seal and we graft the leaf to your name, held at the greffe for twenty minutes while your claim settles.</div>
+        <span class="hand">as one presses wax.</span>
+        <div class="done" id="sealDone"></div>
+      </div>
+    </div>
+
+    <div class="pdp-notes">
+      <div class="exhibit herb rv">
+        <span class="tag">Proc&egrave;s-verbal de d&eacute;gustation</span>
+        <p class="plain">Deep garnet in the glass, with plum, black cherry and a trace of cedar on the nose.</p>
+        <p class="plain">The palate is rounded and warm, its tannins settled by the years in oak underground.</p>
+        <p class="plain">The finish holds through a savoury course and pours again without the reckoning of the morning after.</p>
+        <p class="sig">Tasted blind, twice, by le greffier.</p>
+      </div>
+      <div class="exhibit rv">
+        <span class="tag">Fiche technique</span>
+        <img class="fiche-ghost" src="assets/racines.jpg" alt="" aria-hidden="true">
+        <table>
+          <tr><td>C&eacute;page</td><td>Merlot, 100 %</td></tr>
+          <tr><td>Mill&eacute;sime</td><td>2023, single vintage</td></tr>
+          <tr><td>Terroir</td><td>Limestone of the right bank</td></tr>
+          <tr><td>Domaine</td><td>Ch&acirc;teau Franc Mayne</td></tr>
+          <tr><td>La s&eacute;paration</td><td>Low-temperature vacuum distillation</td></tr>
+          <tr><td>Alcool</td><td>0,5 % vol.</td></tr>
+          <tr><td>Production</td><td>6&thinsp;600 numbered bottles in a single allocation</td></tr>
+          <tr><td>Statut</td><td>D&eacute;class&eacute; &mdash; Sans Appellation</td></tr>
+        </table>
+      </div>
+      <div class="exhibit rv">
+        <span class="tag">Livraison &amp; provenance</span>
+        <p class="plain">Every bottle ships in a registered case with its acte de greffe, sealed in wax, naming its leaf and its keeper.</p>
+        <p class="plain">EU in 3 to 5 days; UK and US in 5 to 9, duties settled by the greffe. We ink the leaf in the crown the day your bottle leaves the cellar.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ MINI COURONNE STRIP ============ -->
+<section class="crownstrip rv">
+  <div class="inner">
+    <div>
+      <span class="eyebrow">La couronne &middot; the public crown</span>
+      <p class="lbl-line">Each bottle is a leaf in the crown of the oak. We ink your leaf in gold the day it is claimed, and the whole crown fills over the life of the allocation.</p>
+      <div class="strip-wrap">
+        <img class="strip-ground" src="assets/couronne-plate.jpg" alt="" aria-hidden="true">
+        <canvas id="crownStrip" aria-label="A band of the crown of six thousand six hundred leaves"></canvas>
+      </div>
+      <div class="counts num"><b id="csTotal">6&thinsp;600</b> leaves &middot; <b class="g" id="csClaimed">60</b> claimed &middot; <b id="csChai">400</b> r&eacute;serv&eacute;es au chai &middot; <b id="csWait">6&thinsp;140</b> awaiting names</div>
+    </div>
+    <a class="btn" href="index.html#couronne">See the whole crown</a>
+  </div>
+</section>
+
+<!-- ============ CROSS-SELL ============ -->
+<section class="crosssell">
+  <div class="lockup rv">
+    <span class="eyebrow">Le greffe &middot; the grafting bench</span>
+    <hr class="goldrule">
+    <h2>While you wait for the wine</h2>
+    <p>Editions and objects propagated from the mother tree. We keep these in stock while the wine is rationed.</p>
+  </div>
+  <div class="cards">
+    <a class="pcard rv" href="#">
+      <div class="ph"><img src="assets/vue-2023.jpg" alt=""></div>
+      <div class="info"><div class="name">La vue fixe, engraved print</div>
+        <div class="meta"><span class="price">90 &euro;</span><span class="st">always in stock</span></div></div>
+    </a>
+    <a class="pcard rv d1" href="#">
+      <div class="ph"><img src="assets/herbier.jpg" alt=""></div>
+      <div class="info"><div class="name">L&rsquo;herbier, the pressed-sprig edition</div>
+        <div class="meta"><span class="price">48 &euro;</span><span class="st">always in stock</span></div></div>
+    </a>
+    <a class="pcard rv d2" href="#">
+      <div class="ph"><img src="assets/tirebouchon.jpg" alt=""></div>
+      <div class="info"><div class="name">Le tire-bouchon de la maison</div>
+        <div class="meta"><span class="price">120 &euro;</span><span class="st">always in stock</span></div></div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="wordmark">ILEX</div>
+      <img class="crest-f" src="assets/seal.jpg" alt="">
+      <p class="sign" style="margin-top:22px">Everything else falls away.</p>
+    </div>
+    <div>
+      <h4>La couronne</h4>
+      <ul>
+        <li><a href="index.html#couronne">The crown</a></li>
+        <li><a href="pdp.html">The inaugural allocation</a></li>
+        <li><a href="#">Verify a bottle</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>La maison</h4>
+      <ul>
+        <li><a href="index.html#siecles">Les si&egrave;cles</a></li>
+        <li><a href="index.html#couronne">La couronne</a></li>
+        <li><a href="index.html#greffe">Le greffe</a></li>
+        <li><a href="pdp.html">Le vin</a></li>
+      </ul>
+    </div>
+    <div class="corr">
+      <h4 id="correspondance">Correspondance</h4>
+      <p>A few letters a year, when an allocation opens.</p>
+      <form class="corr-form" onsubmit="return false">
+        <input type="email" placeholder="Your email address" aria-label="Email address">
+        <button type="submit">Sign up</button>
+      </form>
+      <div class="locked">D&eacute;class&eacute; &mdash; Sans Appellation</div>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <b>0,5 % alcohol by volume &middot; the name of the origin is withheld by decree</b><br>
+    Toujours vert &middot; Ilex &middot; A Route West
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s, c){ return (c||document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+  var clamp = function(x){ return Math.min(1, Math.max(0, x)); };
+
+  /* ---------- reveals ---------- */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {rootMargin:'0px 0px -8% 0px'});
+  $$('.rv').forEach(function(el){ io.observe(el); });
+
+  var panier = $('#panier'), panierN = 0;
+
+  /* ---------- register data (shared with home) ---------- */
+  /* TOTAL 6600. mulberry32(20231107) drives structure.
+     400 reserved au chai = the 400 leaves nearest the base of the crown.
+     60 claimed scattered via mulberry32(1955) over non-chai leaves. */
+  var TOTAL = 6600, N_CHAI = 400, N_CLAIMED = 60;
+  var mulberry = function(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296; }; };
+
+  /* crown geometry, matching the home couronne: union of lobe ellipses in unit space.
+     leaves are rejection-sampled with mulberry32(20231107); y grows downward, so the
+     largest-y leaves sit nearest the trunk and become the chai reserve. */
+  var LOBES = [
+    [.50,.42,.40,.30],
+    [.30,.52,.22,.20],
+    [.70,.50,.24,.22],
+    [.50,.24,.28,.15]
+  ];
+  var inCrown = function(x,y){
+    for (var i=0;i<LOBES.length;i++){
+      var L = LOBES[i], dx = (x-L[0])/L[2], dy = (y-L[1])/L[3];
+      if (dx*dx + dy*dy <= 1) return true;
+    }
+    return false;
+  };
+  var leaves = null;
+  var buildLeaves = function(){
+    if (leaves) return leaves;
+    var rng = mulberry(20231107);
+    leaves = [];
+    while (leaves.length < TOTAL){
+      var x = rng(), y = rng();
+      if (!inCrown(x,y)) continue;
+      /* t is unused here but must be drawn to keep PRNG-stream parity with index.html */
+      leaves.push({ x:x, y:y, a:rng()*Math.PI, s:.8 + rng()*1.1, t:rng(), al:.45 + rng()*.3, kind:0 });
+    }
+    /* chai: the 400 lowest leaves (nearest the base of the crown) */
+    var idx = leaves.map(function(l,i){ return i; });
+    idx.sort(function(a,b){ return leaves[b].y - leaves[a].y; });
+    for (var i=0;i<N_CHAI;i++) leaves[idx[i]].kind = 1;
+    /* 60 claimed, scattered over non-chai leaves */
+    var r2 = mulberry(1955), c = 0;
+    while (c < N_CLAIMED){
+      var k = Math.floor(r2()*TOTAL);
+      if (leaves[k].kind === 0){ leaves[k].kind = 2; c++; }
+    }
+    return leaves;
+  };
+
+  var fmt = function(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009'); };
+  var fmtNo = function(n){ return fmt(n); };  /* leaf numbers 1..6600, thin-space grouped */
+
+  /* ---------- gallery: bottle + alternates ---------- */
+  var stageImg = $('#stageImg'), ghostPlate = $('#ghostPlate'), stageCap = $('#stageCap');
+  var stageFloor = $('.stage-bottle .floor');
+  /* cls: which stage treatment. photo-card = photographic plate, hairline-bordered, own reflection.
+     bottle = alpha PNG with drop-shadow filter, needs the floor shadow div.
+     plate-fill = multiply-blended plate image (no floor). */
+  var VIEWS = {
+    clean:  { src:'assets/bottle-clean.jpg', cls:'photo-card', cap:'one leaf of six thousand six hundred.',            ghost:'assets/tree.jpg', floor:false },
+    bottle: { src:'assets/bottle.png',       cls:'bottle',     cap:'one leaf of six thousand six hundred.',            ghost:'assets/tree.jpg', floor:true },
+    alt:    { src:'assets/bottle-alt.png',   cls:'bottle',     cap:'one leaf of six thousand six hundred.',            ghost:'assets/tree.jpg', floor:true },
+    sprig:  { src:'assets/herbier.jpg',      cls:'plate-fill', cap:'Quercus ilex L. \u00b7 pressed for the herbier.',  ghost:'assets/tree.jpg', floor:false },
+    cellar: { src:'assets/cellar.jpg',       cls:'plate-fill', cap:'oak underground, where the wine was made whole.', ghost:'assets/tree.jpg', floor:false }
+  };
+  $$('.thumbs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var v = VIEWS[this.dataset.view]; if (!v) return;
+      stageImg.src = v.src;
+      stageImg.className = v.cls;
+      if (stageFloor) stageFloor.classList.toggle('off', !v.floor);
+      ghostPlate.src = v.ghost;
+      stageCap.textContent = v.cap;
+      $$('.thumbs button').forEach(function(x){ x.classList.toggle('on', x===b); });
+    });
+  });
+
+  /* ---------- buy column ---------- */
+  var chosenEl = $('#pdpChosen');
+  var chips = $$('.numchips button');
+  var chosenN = 2417, qty = 3;
+  var setNo = function(n){
+    chosenN = n;
+    chosenEl.textContent = 'feuille n\u00ba ' + fmtNo(n);
+    chips.forEach(function(c){ c.classList.toggle('on', String(c.dataset.n) === String(n)); });
+  };
+  var priceMain = $('#priceMain'), priceNote = $('#priceNote');
+  $$('.formats button').forEach(function(b){
+    b.addEventListener('click', function(){
+      qty = parseInt(this.dataset.q, 10);
+      $$('.formats button').forEach(function(x){ x.classList.toggle('on', x===b); });
+      if (qty === 6){ priceMain.textContent = '234 \u20ac'; priceNote.textContent = 'a case of six \u00b7 39 \u20ac per bottle'; }
+      else { priceMain.textContent = '39 \u20ac'; priceNote.textContent = 'per bottle \u00b7 en primeur'; }
+    });
+  });
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      if (this.dataset.n === 'clerk'){
+        var ls = buildLeaves();
+        /* the greffier picks any leaf that is neither chai nor already claimed */
+        var pick, tries = 0;
+        do { pick = 1 + Math.floor(Math.random()*TOTAL); tries++; }
+        while (ls[pick-1].kind !== 0 && tries < 200);
+        setNo(pick);
+        chips.forEach(function(x){ x.classList.remove('on'); });
+        this.classList.add('on');
+      } else setNo(parseInt(this.dataset.n, 10));
+    });
+  });
+  var q = new URLSearchParams(location.search).get('n');
+  if (q && +q >= 1 && +q <= TOTAL) setNo(+q);
+
+  /* ---------- press-and-hold seal ---------- */
+  var seal = $('#sealBtn'), done = $('#sealDone');
+  var holdRAF = null, holdStart = 0, HOLD = 1100;
+  var setDeg = function(d){ seal.style.setProperty('--deg', d); };
+  var holdLoop = function(ts){
+    if (!holdStart) return;
+    var p = Math.min(1, (ts - holdStart)/HOLD);
+    setDeg(360*p);
+    if (p >= 1){
+      holdStart = 0; setDeg(360);
+      seal.classList.add('sealed');
+      setTimeout(function(){ seal.classList.remove('sealed'); setDeg(0); }, 700);
+      var last = chosenN + qty - 1;
+      var msg = (qty > 1)
+        ? 'Sealed. Leaves n\u00ba <span class="g">' + fmtNo(chosenN) + '</span> through <span class="g">' + fmtNo(last) + '</span> are held for you at the greffe.'
+        : 'Sealed. Leaf n\u00ba <span class="g">' + fmtNo(chosenN) + '</span> is held for you at the greffe.';
+      done.innerHTML = msg + ' <span class="hand">le greffier vous attend.</span>';
+      done.classList.add('on');
+      panierN += qty; if (panier) panier.textContent = 'Panier (' + panierN + ')';
+      return;
+    }
+    holdRAF = requestAnimationFrame(holdLoop);
+  };
+  seal.addEventListener('pointerdown', function(e){
+    e.preventDefault(); holdStart = performance.now(); holdRAF = requestAnimationFrame(holdLoop);
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(function(evt){
+    seal.addEventListener(evt, function(){ if (holdStart){ holdStart = 0; cancelAnimationFrame(holdRAF); setDeg(0); } });
+  });
+
+  /* ---------- mini couronne strip ---------- */
+  var strip = $('#crownStrip');
+  if (strip){
+    var sx = strip.getContext('2d');
+    var stripState = { w:0, h:0, dpr:1 };
+    /* draw a wide band of the canopy. we take a horizontal slice of crown-space
+       and map it across the strip, mirroring the leaf kinds (ink / acorn / gold). */
+    var drawStrip = function(){
+      var ls = buildLeaves();
+      var w = strip.clientWidth || strip.offsetWidth, h = 120;
+      var dpr = Math.min(devicePixelRatio || 1, 2);
+      strip.width = w*dpr; strip.height = h*dpr;
+      sx.setTransform(dpr,0,0,dpr,0,0);
+      sx.clearRect(0,0,w,h);
+      /* trunk hint at centre-bottom */
+      sx.strokeStyle = 'rgba(36,33,28,.32)';
+      sx.lineWidth = 1.4;
+      sx.beginPath(); sx.moveTo(w/2, h); sx.quadraticCurveTo(w/2 + 6, h*.7, w/2 + 10, h*.5); sx.stroke();
+      /* leaves: unit crown box mapped to the strip, y compressed into the band */
+      for (var i=0;i<TOTAL;i++){
+        var L = ls[i];
+        var px = L.x * w;
+        var py = 14 + L.y * (h - 26);
+        var sc = L.s * .9;
+        sx.save();
+        sx.translate(px, py); sx.rotate(L.a); sx.scale(sc, sc);
+        if (L.kind === 2){ sx.fillStyle = 'rgba(198,170,114,.95)'; }
+        else if (L.kind === 1){ sx.fillStyle = 'rgba(138,106,69,' + (L.al + .15) + ')'; }
+        else { sx.fillStyle = 'rgba(31,44,30,' + L.al + ')'; }
+        sx.beginPath();
+        sx.ellipse(0,0,2.6,1.05,0,0,Math.PI*2);
+        sx.fill();
+        if (L.kind === 2){ sx.strokeStyle = 'rgba(31,44,30,.5)'; sx.lineWidth = .5; sx.stroke(); }
+        sx.restore();
+      }
+    };
+    var draw = function(){
+      if (document.hidden){ drawStrip(); return; }
+      requestAnimationFrame(drawStrip);
+    };
+    /* redraw when the strip enters view and on resize */
+    var seen = false;
+    new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting && !seen){ seen = true; draw(); } });
+    }, {threshold:.2}).observe(strip);
+    var rt = null;
+    addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(draw, 120); }, {passive:true});
+    draw();
+  }
+
+  /* counts line: fixed figures, formatted with thin space */
+  var wait = TOTAL - N_CHAI - N_CLAIMED;
+  var setTxt = function(id, n){ var el = $(id); if (el) el.textContent = fmt(n); };
+  setTxt('#csTotal', TOTAL); setTxt('#csClaimed', N_CLAIMED); setTxt('#csChai', N_CHAI); setTxt('#csWait', wait);
+})();
+</script>
+</body>
+</html>
